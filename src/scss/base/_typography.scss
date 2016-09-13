@@ -1,0 +1,49 @@
+body {
+  font-family: $base-font-family;
+  font-size: $root-font-size;
+}
+
+%heading-style {
+  margin-bottom: $heading-margin-bottom;
+  font-weight: $heading-font-weight;
+  font-family: $heading-font-family;
+  color: $heading-font-color;
+  line-height: $heading-line-height;
+}
+
+@for $index from 1 through 6 {
+  h#{$index}, .h#{$index} {
+    @extend %heading-style;
+  }
+}
+
+h1, .h1 {
+  font-size: $font-size-h1;
+}
+
+h2, .h2 {
+  font-size: $font-size-h2;
+}
+
+h3, .h3 {
+  font-size: $font-size-h3;
+}
+
+h4, .h4 {
+  font-size: $font-size-h4;
+}
+
+h5, .h5 {
+  font-size: $font-size-h5;
+}
+
+h6, .h6 {
+  font-size: $font-size-h6;
+}
+
+// Alignment
+@each $location in $text-align-list {
+  .tal-text-#{$location} {
+    text-align: $location;
+  }
+}

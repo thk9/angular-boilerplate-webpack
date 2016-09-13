@@ -1,0 +1,29 @@
+@each $direction in top, right, bottom, left, horizontal, vertical {
+  @if ($direction == horizontal) {
+    .padding-#{$direction} {
+      @extend .padding-left !optional;
+      @extend .padding-right !optional;
+    }
+    .margin-#{$direction} {
+      @extend .margin-left !optional;
+      @extend .margin-right !optional;
+    }
+  } @else if ($direction == vertical) {
+    .padding-#{$direction} {
+      @extend .padding-top !optional;
+      @extend .padding-bottom !optional;
+    }
+    .margin-#{$direction} {
+      @extend .margin-top !optional;
+      @extend .margin-bottom !optional;
+    }
+  } @else {
+    .padding-#{$direction} {
+      padding-#{$direction}: $base-padding-unit;
+    }
+
+    .margin-#{$direction} {
+      margin-#{$direction}: $base-margin-unit;
+    }
+  }
+}

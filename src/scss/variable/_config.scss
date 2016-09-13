@@ -1,0 +1,61 @@
+// UI abstraction prefix
+$base-prefix: tal;
+
+// state visualize
+$tal-states: (
+  stable: #f8f8f8,
+  positive: #387ef5,
+  calm: #11c1f3,
+  balanced: #33cd5f,
+  energized: #ffc900,
+  assertive: #ef473a,
+  royal: #886aea
+);
+
+/**
+ * base unit interact
+ */
+$base-margin-unit: 10px !default;
+$base-padding-unit: 10px !default;
+
+/**
+ * font relation configuration
+ */
+$base-font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Microsoft Yahei", "微软雅黑", sans-serif;
+$root-font-size: 62.5%;
+
+$text-align-list: left, center, justify, right;
+
+/**
+ * base unit interact
+ */
+$base-margin-unit: 10px !default;
+$base-padding-unit: 10px !default;
+
+/**
+ * table related variable
+ */
+$table-cell-padding: .75rem;
+$table-condensed-cell-padding: .25rem;
+
+$table-border-width: 1px !default;
+$table-border-style: solid;
+$table-border-color: #dddddd;
+
+$table-hover-bg: #EAF8FF;
+
+/**
+ * heading typography
+ */
+$font-size-h1: 2.5rem !default;
+$font-size-h2: 2rem !default;
+$font-size-h3: 1.75rem !default;
+$font-size-h4: 1.5rem !default;
+$font-size-h5: 1.25rem !default;
+$font-size-h6: 1rem !default;
+
+$heading-font-weight: 500 !default;
+$heading-font-color: inherit !default;
+$heading-font-family: inherit !default;
+$heading-line-height: 1.5 !default;
+$heading-margin-bottom: .5rem !default;;

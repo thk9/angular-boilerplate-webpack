@@ -1,0 +1,5 @@
+---
+- name: deploy static files public
+  unarchive:
+    src: archive.tar.gz
+    dest: "{{ static_root }}/"

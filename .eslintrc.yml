@@ -1,0 +1,28 @@
+env:
+  browser: true
+  es6: true
+  jquery: true
+  jasmine: true
+  node: true
+extends:
+  - 'eslint:recommended'
+  - 'angular'
+globals:
+  _: true
+  inject: true # angular-mocks global variable
+plugins:
+  - angular
+rules:
+  indent:
+    - error
+    - 2
+    - SwitchCase: 1
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - always

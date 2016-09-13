@@ -1,0 +1,30 @@
+{
+  "name": "angular-bolilerplate",
+  "version": "0.6.0",
+  "author": "bornkiller",
+  "description": "AngularJS boilterplate with full structure",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bornkiller/angular-boilerplate.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "babel-preset-es2015": "^6.14.0",
+    "bourbon": "^4.2.7",
+    "eslint": "^3.4.0",
+    "eslint-config-angular": "^0.5.0",
+    "eslint-plugin-angular": "^1.3.1",
+    "jasmine-core": "^2.2.0",
+    "jasmine-reporters": "^2.0.6",
+    "karma": "^0.12.21",
+    "karma-cli": "^0.0.4",
+    "karma-coverage": "~0.2.5",
+    "karma-jasmine": "^0.3.6",
+    "karma-webdriver-launcher": "^1.0.3"
+  },
+  "scripts": {},
+  "license": "MIT"
+}

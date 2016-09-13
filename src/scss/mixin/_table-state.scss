@@ -1,0 +1,9 @@
+@mixin table-row-state($state, $color) {
+  .tal-table-#{$state} {
+    &,
+    > th,
+    > td {
+      background-color: $color;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+// Background
+//
+// A shortcut set for background.
+//
+// Markup:
+// <h4 class="h4 {{modifier_class}}">This is background list!!!</h4>
+//
+// .tal-bg-stable    - stable state background, which means #f8f8f8.
+// .tal-bg-positive  - positive state background, which means #387ef5.
+// .tal-bg-calm      - calm state background, which means #11c1f3.
+// .tal-bg-balanced  - balanced state background, which means #33cd5f.
+// .tal-bg-energized - energized state background, which means #ffc900.
+// .tal-bg-assertive - assertive state background, which means #ef473a.
+// .tal-bg-royal     - royal state background, which means #886aea.
+//
+// Style guide: State.Background
+@each $state in map_keys($tal-states) {
+  .tal-bg-#{$state} {
+    $color: map_get($tal-states, $state);
+    background-color: rgba($color, .85);
+  }
+}

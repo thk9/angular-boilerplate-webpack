@@ -1,0 +1,29 @@
+# install deps
+before_script:
+  - make install
+
+# miss test task here
+stages:
+  - deploy
+
+# 前端打包处理
+distribute:
+  stage: deploy
+  script:
+    - make
+    - make package
+    - make deploy
+  only:
+    - master
+    - /^hotfix-.*$/
+  tags:
+    - optimize
+    - browser
+  allow_failure: false
+  cache:
+    name: "$CI_BUILD_REF"
+    untracked: true
+    paths:
+      - node_modules/
+      - src/lib/
+      - dist/

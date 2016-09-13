@@ -1,0 +1,8 @@
+---
+- hosts: webserver
+  gather_facts: false
+  vars:
+    # 前端静态文件目录
+    static_root: /home/dongfapeng/boilerplate
+  roles:
+     - { role: frontend }

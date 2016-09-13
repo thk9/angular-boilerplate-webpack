@@ -1,0 +1,83 @@
+// table specific rules
+// necessary target vertical-align, border, padding
+.tal-table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  td, th {
+    padding: $table-cell-padding;
+    border-bottom: $table-border-width solid $table-border-color;
+    text-align: left;
+    vertical-align: top;
+  }
+  thead th {
+    border-bottom: $table-border-width * 2 $table-border-style $table-border-color;
+    vertical-align: bottom;
+  }
+}
+
+.tal-table-condensed {
+  th, td {
+    padding: $table-condensed-cell-padding;
+  }
+}
+
+.tal-table-bordered {
+  th, td {
+    border: $table-border-width $table-border-style $table-border-color;
+  }
+
+  thead th {
+    border-bottom-width: $table-border-width * 2;
+  }
+}
+
+.tal-table-hover {
+  tbody tr {
+    @include tal-hover() {
+      background-color: $table-hover-bg;
+    }
+  }
+}
+
+// table fixed layout
+.tal-table-fixed {
+  table-layout: fixed;
+}
+
+// Table
+//
+// Table reactive state theme, hover never pollute this
+//
+// Markup:
+// <table class="tal-table tal-table-fixed tal-table-hover">
+//   <thead>
+//   <tr>
+//     <th>类别名称</th>
+//     <th>类别总数</th>
+//     <th>类别金额(RMB)</th>
+//   </tr>
+//   </thead>
+//   <tbody>
+//   <tr class="{{modifier_class}}">
+//     <td>办公用品</td>
+//     <td>18</td>
+//     <td>200,000.00</td>
+//   </tr>
+//   </tbody>
+// </table>
+//
+// .tal-table-stable - table stable theme row, #f8f8f8
+// .tal-table-positive - table positive theme row, #387ef5
+// .tal-table-calm - table stable calm row, #11c1f3
+// .tal-table-balanced - table balanced theme row, #33cd5f
+// .tal-table-energized - table energized theme row, #ffc900
+// .tal-table-assertive - table assertive theme row, #ef473a
+// .tal-table-royal - table royal theme row, #886aea
+//
+// Style guide: State.Table
+@each $state in map_keys($tal-states) {
+  $color: map_get($tal-states, $state);
+  @include table-row-state($state, $color)
+}
