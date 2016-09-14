@@ -7,7 +7,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    application: ['./src/app.js']
+    application: ['./src/app.js'],
+    vendor: ['./src/vendor.js']
   },
   
   output: {
@@ -19,21 +20,21 @@ module.exports = {
   
   resolve: {
     root: [path.resolve(__dirname, 'src')],
-    extensions: ['js', 'css', 'html'],
+    extensions: ['', '.js', '.css', '.html'],
     alias: {
-      'angular': path.join(__dirname, 'node_modules', 'angular', 'angular.min.js'),
-      'angular-animate': path.join(__dirname, 'node_modules', 'angular-animate', 'angular-animate.min.js'),
-      'angular-resource': path.join(__dirname, 'node_modules', 'angular-resource', 'angular-resource.min.js'),
-      'angular-sanitize': path.join(__dirname, 'node_modules', 'angular-sanitize', 'angular-sanitize.min.js'),
-      'angular-cookies': path.join(__dirname, 'node_modules', 'angular-cookies', 'angular-cookies.min.js'),
-      'angular-mocks': path.join(__dirname, 'node_modules', 'angular-mocks', 'angular-mocks.js'),
-      'angular-ui-router': path.join(__dirname, 'node_modules', 'angular-ui-router', 'release', 'angular-ui-router.min.js'),
-      'angular-ui-bootstrap': path.join(__dirname, 'node_modules', 'angular-ui-bootstrap', 'ui-bootstrap-tpls.min.js')
+      'angular$': path.join(__dirname, 'node_modules', 'angular', 'angular.min.js'),
+      'angular-animate$': path.join(__dirname, 'node_modules', 'angular-animate', 'angular-animate.min.js'),
+      'angular-resource$': path.join(__dirname, 'node_modules', 'angular-resource', 'angular-resource.min.js'),
+      'angular-sanitize$': path.join(__dirname, 'node_modules', 'angular-sanitize', 'angular-sanitize.min.js'),
+      'angular-cookies$': path.join(__dirname, 'node_modules', 'angular-cookies', 'angular-cookies.min.js'),
+      'angular-mocks$': path.join(__dirname, 'node_modules', 'angular-mocks', 'angular-mocks.min.js'),
+      'angular-ui-router$': path.join(__dirname, 'node_modules', 'angular-ui-router', 'release', 'angular-ui-router.min.js'),
+      'angular-bootstrap$': path.join(__dirname, 'node_modules', 'angular-bootstrap', 'ui-bootstrap-tpls.min.js')
     }
   },
   
   module: {
-    noParse: [/angular-?[a-zA-Z]+/],
+    noParse: [/angular-[a-zA-Z]+(\.min)?\.js$/],
     loaders: [
       {
         test: /\.js$/,
@@ -48,15 +49,33 @@ module.exports = {
         test: /\.html$/,
         exclude: /index\.html$/,
         loaders: [
-          'raw-loader',
           'html-loader?attrs[]=img:src&root=' + path.resolve(__dirname, 'src')
         ]
       },
+      // html-webpack-plugin weird issue fix
+      {
+        test: path.resolve(__dirname, 'src', 'index.html'),
+        loaders: ['raw-loader']
+      },
+      // UI configuration
+      {
+        test: /\.css$/,
+        loaders: ['style-loader', 'css-loader?root=' + path.resolve(__dirname, 'src')]
+      },
+      {
+        test: /\.scss/,
+        loaders: ['style-loader', 'css-loader?root=' + path.resolve(__dirname, 'src'), 'sass-loader']
+      },
+      // UI configuration
       // fonts IE hack will skip loader without (\?.*)
       {
-        test: /.(png|jpe?g|gif|mp3|woff|woff2|ttf|eot|svg)(\?.*)$/,
+        test: /\.(png|jpe?g|gif|mp3|woff|woff2|ttf|eot|svg)(\?.*)?$/,
         loader: 'url-loader?limit=5000&name=[name].[ext]'
       },
+      // {
+      //   test: /\.(woff|woff2|ttf|eot|svg)(\?.*)?$/,
+      //   loader: 'file-loader?name=[name].[ext]'
+      // },
       // rare condition for API mocks
       {
         test: /\.json$/,
@@ -66,25 +85,29 @@ module.exports = {
   },
   
   plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(true),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['application', 'vendor']
+    }),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': 'develop' // eslint-disable-line angular/json-functions
+        'NODE_ENV': JSON.stringify('develop') // eslint-disable-line angular/json-functions
       }
     }),
     new HtmlWebpackPlugin({
       favicon: './src/favicon.ico',
-      template: 'raw!./src/index.html',
+      template: './src/index.html',
       chunksSortMode: 'dependency'
     })
   ],
+  
+  devtool: 'inline-source-map',
   
   node: {
     process: true,
     Buffer: 'empty',
     crypto: 'empty'
   },
-  
-  devtool: 'inline-source-map',
   
   devServer: {
     contentBase: './dist/',
@@ -96,5 +119,4 @@ module.exports = {
     },
     stats: 'minimal'
   }
-  
 };
