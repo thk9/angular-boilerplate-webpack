@@ -35,15 +35,9 @@ module.exports = {
   
   module: {
     noParse: [/angular-[a-zA-Z]+(\.min)?\.js$/],
+    preLoaders: [],
+    postLoaders: [],
     loaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loaders: [
-          'ng-annotate-loader?add=true',
-          'babel-loader?presets[]=es2015&cacheDirectory=true'
-        ]
-      },
       // give up weird ng-template cache
       {
         test: /\.html$/,
@@ -56,6 +50,14 @@ module.exports = {
       {
         test: path.resolve(__dirname, 'src', 'index.html'),
         loaders: ['raw-loader']
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loaders: [
+          'ng-annotate-loader?add=true',
+          'babel-loader?presets[]=es2015&cacheDirectory=true'
+        ]
       },
       // UI configuration
       {
@@ -72,10 +74,6 @@ module.exports = {
         test: /\.(png|jpe?g|gif|mp3|woff|woff2|ttf|eot|svg)(\?.*)?$/,
         loader: 'url-loader?limit=5000&name=[name].[ext]'
       },
-      // {
-      //   test: /\.(woff|woff2|ttf|eot|svg)(\?.*)?$/,
-      //   loader: 'file-loader?name=[name].[ext]'
-      // },
       // rare condition for API mocks
       {
         test: /\.json$/,
@@ -91,6 +89,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
+        'ENV': JSON.stringify('develop'), // eslint-disable-line angular/json-functions
         'NODE_ENV': JSON.stringify('develop') // eslint-disable-line angular/json-functions
       }
     }),
@@ -101,12 +100,15 @@ module.exports = {
     })
   ],
   
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-source-map',
   
   node: {
-    process: true,
+    global: 'window',
     Buffer: 'empty',
-    crypto: 'empty'
+    crypto: 'empty',
+    process: true,
+    clearImmediate: false,
+    setImmediate: false
   },
   
   devServer: {
@@ -114,7 +116,7 @@ module.exports = {
     quiet: false,
     historyApiFallback: true,
     watchOptions: {
-      aggregateTimeout: 250,
+      aggregateTimeout: 300,
       poll: 1000
     },
     stats: 'minimal'
