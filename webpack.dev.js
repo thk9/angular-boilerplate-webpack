@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    application: ['./src/app.js'],
+    application: ['webpack-dev-server/client?http://localhost:8000', 'webpack/hot/only-dev-server', './src/app.js'],
     vendor: ['./src/vendor.js']
   },
   
@@ -97,7 +97,8 @@ module.exports = {
       favicon: './src/favicon.ico',
       template: './src/index.html',
       chunksSortMode: 'dependency'
-    })
+    }),
+    new webpack.HotModuleReplacementPlugin()
   ],
   
   devtool: 'cheap-module-source-map',
@@ -115,6 +116,7 @@ module.exports = {
     contentBase: './dist/',
     quiet: false,
     historyApiFallback: true,
+    port: 8000,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000
