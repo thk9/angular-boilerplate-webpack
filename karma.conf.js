@@ -1,7 +1,12 @@
+/**
+ * @description - karma webpack integration
+ */
+const WebpackKarmaConfig = require('./webpack.karma');
+
 module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: 'src/',
+    basePath: '',
     
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
@@ -9,25 +14,11 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     // karma support glob pattern, so just inject deps script
-    files: [
-      //~ inject
-      'lib/jquery/dist/jquery.js',
-      'lib/underscore/underscore.js',
-      'lib/angular/angular.js',
-      'lib/angular-bootstrap/ui-bootstrap-tpls.js',
-      'lib/angular-ui-router/release/angular-ui-router.js',
-      'lib/bootstrap/dist/js/bootstrap.js',
-      //~ endinject
-      'lib/angular-mocks/angular-mocks.js', // angular-mocks can't auto inject
-      'js/app.js',
-      '**/*.config.js',
-      '**/*.constant.js',
-      '**/*.service.js',
-      '**/*.filter.js',
-      '**/*.controller.js',
-      '**/*.directive.js',
-      '../test/**/*.spec.js'
-    ],
+    files: [{
+      pattern: 'karma.bundle.js', watched: false
+    }],
+    
+    exclude: [],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -40,8 +31,14 @@ module.exports = function (config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'js/**/*.js': ['coverage']
+      'karma.bundle.js': ['webpack', 'sourcemap']
     },
+    
+    // Webpack use normal loader
+    webpack: WebpackKarmaConfig,
+  
+    // Webpack please don't spam the console when running in karma!
+    webpackServer: { noInfo: true },
     
     // optionally, configure the reporter
     coverageReporter: {
@@ -77,6 +74,7 @@ module.exports = function (config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // available options 'Chrome', 'IE', 'Firefox', 'PhantomJS'
+    // 使用`webdriver-launcher`可以定制跨平台浏览器
     browsers: ['Chrome'],
     
     // Continuous Integration mode
