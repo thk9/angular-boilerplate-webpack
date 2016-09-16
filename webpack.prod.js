@@ -97,7 +97,10 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production') // eslint-disable-line angular/json-functions
       }
     }),
-    new webpack.optimize.UglifyJsPlugin(),
+    // 此处有问题,暂时未有解决方案
+    // new webpack.optimize.UglifyJsPlugin({
+    //   sourceMap: false
+    // }),
     new HtmlWebpackPlugin({
       favicon: './src/favicon.ico',
       template: './src/index.html',
