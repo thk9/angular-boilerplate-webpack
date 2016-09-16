@@ -41,11 +41,15 @@ module.exports = {
         test: path.resolve(__dirname, 'src', 'index.html'),
         loaders: ['raw-loader']
       },
+      // 测试环境无须ng-strict-di
+      // coverage 只关注应用代码,无须测试,依赖文件
+      // 如果测试文件不处理
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|spec)/,
         loaders: [
-          'ng-annotate-loader?add=true',
+          // 'ng-annotate-loader?add=true',
+          'istanbul-instrumenter-loader?esModules=true',
           'babel-loader?presets[]=es2015&cacheDirectory=true'
         ]
       },
