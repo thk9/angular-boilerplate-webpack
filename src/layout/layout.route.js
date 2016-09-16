@@ -3,7 +3,8 @@
  * @author - bornkiller <hjj491229492@hotmail.com>
  */
 
-export const LayoutRouter = [
+// router rule declare
+export const LayoutRoute = [
   {
     name: 'authorize',
     url: '/authorize',
@@ -29,3 +30,10 @@ export const LayoutRouter = [
     }
   }
 ];
+
+// router config implement
+export function /* @ngInject */ $layoutRouterConfig($stateProvider) {
+  [...LayoutRoute].forEach((route) => {
+    $stateProvider.state(route);
+  });
+}

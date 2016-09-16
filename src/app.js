@@ -1,25 +1,22 @@
 /**
- * @description - application entry
+ * @description
+ * 1. application entry
+ * 2. never import none UMD package, like angular, angular-*
+ * 3. import necessary UMD package, like moment, underscore
+ *
  * @since 2016/09/13
  */
 
-import 'angular';
-
-import 'angular-animate';
-import 'angular-bootstrap';
-import 'angular-ui-router';
-
 import { $stateProviderConfig } from './config/$state.config';
+import { LAYOUT_MODULE } from './layout/layout.module';
+import { SHARE_MODULE } from './share/share.module';
 
 /**
  * @ngdoc overview
  * @name App
- * @module App
- *
- * @requires ui.router
  *
  * @description - Angular boilerplate integrated module
  *
  */
-angular.module('App', ['ui.router'])
+angular.module('App', ['ui.router', 'ui.bootstrap', SHARE_MODULE, LAYOUT_MODULE])
   .config($stateProviderConfig);

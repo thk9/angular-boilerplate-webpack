@@ -5,12 +5,9 @@
 
 'use strict';
 
-import { LayoutRouter } from '../layout/layout.route';
-
-export function /* @ngInject */ $stateProviderConfig($stateProvider, $urlRouterProvider) {
-  [...LayoutRouter].forEach((route) => {
-    $stateProvider.state(route);
-  });
-  
+/**
+ * @description - just default router direction
+ */
+export function /* @ngInject */ $stateProviderConfig($urlRouterProvider) {
   $urlRouterProvider.otherwise('/application');
 }
