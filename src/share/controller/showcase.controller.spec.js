@@ -1,7 +1,10 @@
 /**
  * @description - BkShowcaseController unit test
+ * @author bornkiller <hjj491229492@hotmail.com
  */
-import { BkShowcaseController } from './showcase.controller';
+
+// 此处必须使用NPM方式,避免覆盖率报告异常
+var BkShowcaseController = require('./showcase.controller').BkShowcaseController;
 
 describe('angular-boilerplate-webpack showcase controller', function () {
   var $controller

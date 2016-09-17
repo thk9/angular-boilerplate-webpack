@@ -10,6 +10,9 @@ import 'angular-animate';
 import 'angular-bootstrap';
 import 'angular-ui-router';
 
+// none standard es6 module package
+import 'lodash';
+
 // resolve all application files
 import './src/app';
 

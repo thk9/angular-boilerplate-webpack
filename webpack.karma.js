@@ -1,5 +1,6 @@
 /**
  * @description - webpack configuration, just for develop
+ * @author bornkiller <hjj491229492@hotmail.com
  */
 const path = require('path');
 const webpack = require('webpack');

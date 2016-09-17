@@ -25,7 +25,7 @@ module.exports = function (config) {
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     // plugin support: junit, should config junitReporter in use
     // plugin support: coverage, should config coverageReporter and preprocessors in use
-    reporters: ['coverage'],
+    reporters: ['progress', 'coverage'],
     
     preprocessors: {
       // source files, that you wanna generate coverage for
