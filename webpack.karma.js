@@ -49,8 +49,8 @@ module.exports = {
         exclude: /(node_modules|spec)/,
         loaders: [
           // 'ng-annotate-loader?add=true',
+          'babel-loader?presets[]=es2015&cacheDirectory=true',
           'istanbul-instrumenter-loader?esModules=true',
-          'babel-loader?presets[]=es2015&cacheDirectory=true'
         ]
       },
       // UI configuration

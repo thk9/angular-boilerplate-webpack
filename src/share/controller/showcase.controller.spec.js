@@ -16,7 +16,7 @@ describe('angular-boilerplate-webpack showcase controller', function () {
   }));
   
   it('should display default error desc', function () {
-    let bkShowcase;
+    var bkShowcase;
   
     spyOn(bkPrompt, 'isValidPrompt').and.returnValues(false);
     bkShowcase = $controller(BkShowcaseController, {bkPrompt: bkPrompt});
@@ -28,7 +28,7 @@ describe('angular-boilerplate-webpack showcase controller', function () {
   });
   
   it('should display pass in error desc', function () {
-    let bkShowcase;
+    var bkShowcase;
   
     spyOn(bkPrompt, 'isValidPrompt').and.returnValues(true);
     bkShowcase = $controller(BkShowcaseController, {bkPrompt: bkPrompt});
