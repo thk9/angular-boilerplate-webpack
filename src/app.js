@@ -8,8 +8,23 @@
  */
 
 import { $stateProviderConfig } from './config/$state.config';
+import { $reduxStoreConfig } from './config/$redux.config';
+
 import { LAYOUT_MODULE } from './layout/layout.module';
 import { SHARE_MODULE } from './share/share.module';
+import { COLLECTION_MODULE } from './page/page.barrel';
+
+const dependencies = [
+  'ui.router',
+  'ui.bootstrap',
+  
+  'ngRedux',
+  'ui-notification',
+  
+  LAYOUT_MODULE,
+  SHARE_MODULE,
+  COLLECTION_MODULE
+];
 
 /**
  * @ngdoc overview
@@ -18,7 +33,8 @@ import { SHARE_MODULE } from './share/share.module';
  * @description - Angular boilerplate integrated module
  *
  */
-angular.module('App', ['ui.router', 'ui.bootstrap', 'ui-notification', SHARE_MODULE, LAYOUT_MODULE])
+angular.module('App', dependencies)
+  .config($reduxStoreConfig)
   .config($stateProviderConfig);
 
 angular.element(document).ready(() => {

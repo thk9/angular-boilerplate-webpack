@@ -11,6 +11,8 @@ import 'angular-ui-notification';
 
 // none standard es6 module package
 import 'lodash';
+import 'redux';
+import 'ng-redux';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
