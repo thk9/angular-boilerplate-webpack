@@ -1,0 +1,23 @@
+<form class="form-horizontal" novalidate>
+  <h3 class="h3">Collection</h3>
+  
+  <fieldset>
+    <div class="form-group">
+      <label for="heroName" class="control-label col-sm-1">Name</label>
+      <div class="col-sm-5">
+        <input type="text" id="heroName" class="form-control" placeholder="please input hero name"
+               ng-model="model.name" name="name" required>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="heroAge" class="control-label col-sm-1">Age</label>
+      <div class="col-sm-5">
+        <input type="text" id="heroAge" class="form-control" placeholder="please input hero age"
+               ng-model="model.age" name="age" required>
+      </div>
+    </div>
+  </fieldset>
+  
+  <button class="btn btn-primary btn-block">提交</button>
+</form>
