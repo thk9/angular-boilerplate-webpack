@@ -3,7 +3,7 @@
  * @name App.filter:postfix
  * @kind function
  */
-export function /* @ngInject */ bkPostfixFilter() {
+export /* @ngInject */ function bkPostfixFilter() {
   /**
    * @description - Add postfix after any param
    *

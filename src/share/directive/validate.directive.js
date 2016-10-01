@@ -6,7 +6,7 @@
  *
  * @description - validate telephone number
  */
-export function /* @ngInject */ bkValidateCaptchaDirective() {
+export /* @ngInject */ function bkValidateCaptchaDirective() {
   return {
     restrict: 'A',
     require: 'ngModel',

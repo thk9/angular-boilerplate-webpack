@@ -6,7 +6,7 @@
  *
  * @requires $q
  */
-export function /* @ngInject */ bkPromptFactory() {
+export /* @ngInject */ function bkPromptFactory() {
   return {
     isValidPrompt,
     escapeValidPrompt

@@ -8,6 +8,6 @@
 /**
  * @description - just default router direction
  */
-export function /* @ngInject */ $stateProviderConfig($urlRouterProvider) {
+export /* @ngInject */  function $stateProviderConfig($urlRouterProvider) {
   $urlRouterProvider.otherwise('/application');
 }

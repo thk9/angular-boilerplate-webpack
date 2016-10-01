@@ -32,7 +32,7 @@ export const LayoutRoute = [
 ];
 
 // router config implement
-export function /* @ngInject */ $layoutRouterConfig($stateProvider) {
+export  /* @ngInject */  function $layoutRouterConfig($stateProvider) {
   [...LayoutRoute].forEach((route) => {
     $stateProvider.state(route);
   });
