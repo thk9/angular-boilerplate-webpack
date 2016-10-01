@@ -4,6 +4,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -62,10 +63,12 @@ module.exports = {
       // UI configuration
       {
         test: /\.css$/,
-        loaders: ['style-loader', 'css-loader?root=' + path.resolve(__dirname, 'src')]
+        // loaders: ['style-loader', 'css-loader?root=' + path.resolve(__dirname, 'src')]
+        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?root=' + path.resolve(__dirname, 'src'))
       },
       {
         test: /\.scss/,
+        exclude: /node_modules/,
         loaders: ['style-loader', 'css-loader?root=' + path.resolve(__dirname, 'src'), 'sass-loader']
       },
       // UI configuration
@@ -93,6 +96,7 @@ module.exports = {
         'NODE_ENV': JSON.stringify('develop') // eslint-disable-line angular/json-functions
       }
     }),
+    new ExtractTextPlugin('[name].css'),
     new HtmlWebpackPlugin({
       favicon: './src/favicon.ico',
       template: './src/index.html',
@@ -116,6 +120,7 @@ module.exports = {
     contentBase: './dist/',
     quiet: false,
     historyApiFallback: true,
+    hot: true,
     port: 8000,
     watchOptions: {
       aggregateTimeout: 300,
