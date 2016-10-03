@@ -1,15 +1,25 @@
 /**
  * @description - application level router config.
- * @author huang.jian <jian.huang03@ele.me>
+ * @author bornkiller <hjj491229492@hotmail.com>
  */
 
 'use strict';
 
-import { $layoutRouterConfig } from './layout.route';
+import { LayoutRoute } from './layout.route';
 
 // share module name
 const LAYOUT_MODULE = 'app.layout';
 
-angular.module(LAYOUT_MODULE, []).config($layoutRouterConfig);
+let $stateProviderRef;
+
+angular.module(LAYOUT_MODULE, [])
+  // eslint-disable-next-line angular/di
+  .config(['$stateProvider', function ($stateProvider) {
+    $stateProviderRef = $stateProvider;
+    // router config implement
+    [...LayoutRoute].forEach((route) => {
+      $stateProviderRef.state(route);
+    });
+  }]);
 
 export { LAYOUT_MODULE };
