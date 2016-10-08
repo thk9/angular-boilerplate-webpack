@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @ngdoc filter
  * @name App.filter:postfix
@@ -13,7 +15,6 @@ export /* @ngInject */ function bkPostfixFilter() {
    */
   return function (origin, flag) {
     return origin.toString() + (flag || '');
-    // return 'HMR filter update template trigger challenge...';
   };
 }
 
@@ -21,12 +22,27 @@ export /* @ngInject */ function bkPostfixFilter() {
 // 普通过滤器热更新暂定为此
 if (module.hot) {
   module.hot.accept();
-  module.hot.data = module.hot.data || {};
   
-  let element = angular.element(document.body); // eslint-disable-line
+  let element = angular.element(document.body);
   let $injector = element.injector();
   
   if ($injector) {
-    $filterProviderRef.register('bkPostfix', bkPostfixFilter);
+    $injector.register('bkPostfixFilter', $injector.invoke(bkPostfixFilter));
+  
+    let targets = document.querySelectorAll('[ng-bind*=bkPostfixPlaceholder]');
+    
+    if (targets.length) {
+      targets.forEach((target) => {
+        let uuid = Math.random().toString(36).substr(2, 9);
+        let match = /bkPostfixPlaceholder(\w)*/;
+        let template = target.outerHTML.replace(match, 'bkPostfixPlaceholder' + uuid);
+        let scope = angular.element(target).scope();
+        let middleware = $compile(template)(scope);
+  
+        _template_storage.set('bkPostfixPlaceholder', 'bkPostfixPlaceholder' + uuid);
+        angular.element(target).replaceWith(middleware);
+        scope.$apply();
+      });
+    }
   }
 }

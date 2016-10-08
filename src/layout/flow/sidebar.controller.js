@@ -1,8 +1,10 @@
 /* @ngInject */
 export class SidebarController {
   constructor(bkPrompt) {
-    this.description = 'hello world';
     this.bkPrompt = bkPrompt;
+    
+    this.description = 'hello world';
+    this.keyword = 'American Beauty';
   }
   
   handleHotClick() {

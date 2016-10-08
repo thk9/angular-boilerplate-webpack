@@ -68,16 +68,19 @@ if (module.hot) {
     
     if (!$injector) return;
     
-    let $rootScope = $injector.get('$rootScope');
     let $compile = $injector.get('$compile');
     let template = require('./flow/sidebar.html');
     let target = angular.element(document.querySelector('aside'));
     let scope = target.scope();
     
+    for (let reflection of _template_storage) {
+      template = template.replace(reflection[0], reflection[1]);
+    }
+    
     let compiledTemplate = $compile(template)(scope);
     
     target.empty().append(compiledTemplate);
-    $rootScope.$apply();
+    scope.$apply();
   });
 
   module.hot.accept(['./flow/navbar.html'], function () {

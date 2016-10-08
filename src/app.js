@@ -24,26 +24,18 @@ angular.module('App', ['ui.router', 'ui.bootstrap', SHARE_MODULE, LAYOUT_MODULE]
     window.$filterProviderRef = $filterProvider;
   }]);
 
-// angular.element(document).ready(() => {
-//   let element = angular.element(document.body); // eslint-disable-line
-//   let $injector = element.injector();
-  
-  // let _get = $injector.get;
-  
-  // let _storage = {};
-  
-  // $injector._register = function(name, implement) {
-  //   _storage[name] = implement;
-  // };
-  //
-  // $injector.get = function (name) {
-  //   if (_storage.hasOwnProperty(name)) {
-  //     console.log('proxy injector match %s', name);
-  //     return _storage[name];
-  //   }
-  //   return _get(name);
-  // };
-  
-  // window.$injector = $injector;
-  // window.$compile = $injector.get('$compile');
-// });
+angular.element(document).ready(() => {
+  let element = angular.element(document.body); // eslint-disable-line
+  let $injector = element.injector();
+  let _get = $injector.get;
+  let _storage = new Map();
+  let _template_storage = new Map();
+
+  $injector.register = _storage.set.bind(_storage);
+  $injector.get = name => _storage.has(name) ? _storage.get(name) : _get(name);
+
+  window.$injector = $injector;
+  window.$rootScope = $injector.get('$rootScope');
+  window.$compile = $injector.get('$compile');
+  window._template_storage = _template_storage;
+});
