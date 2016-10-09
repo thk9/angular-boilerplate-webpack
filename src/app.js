@@ -18,11 +18,8 @@ import { SHARE_MODULE } from './share/share.module';
  * @description - Angular boilerplate integrated module
  *
  */
-angular.module('App', ['ui.router', 'ui.bootstrap', SHARE_MODULE, LAYOUT_MODULE])
-  .config($stateProviderConfig)
-  .config(['$filterProvider', function ($filterProvider) {
-    window.$filterProviderRef = $filterProvider;
-  }]);
+angular.module('App', ['ui.router', 'ui.bootstrap', 'ui-notification', SHARE_MODULE, LAYOUT_MODULE])
+  .config($stateProviderConfig);
 
 angular.element(document).ready(() => {
   let element = angular.element(document.body); // eslint-disable-line
