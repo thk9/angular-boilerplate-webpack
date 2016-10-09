@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @description - layout router config
  * @author - bornkiller <hjj491229492@hotmail.com>
@@ -47,20 +49,25 @@ if (module.hot) {
     
     let { SidebarController } = require('./flow/sidebar.controller');
     
-    let $rootScope = $injector.get('$rootScope');
     let target = angular.element(document.querySelector('aside'));
-    let prevVM = target.scope().vm;
+    let scope = target.scope();
+    let prevVM = scope.vm;
     let nextVM = $injector.instantiate(SidebarController);
+    let toString = Object.prototype.toString;
     
-    _.chain(nextVM).omit('$resolve').keys().value().forEach(key => {
-      prevVM[key] = nextVM[key];
+    // 假设所有关联属性在constructor内部声明
+    // 且变量类型不变
+    _.chain(nextVM).keys().value().forEach(key => {
+      if (!_.has(prevVM, key) || toString.call(prevVM[key]) !== toString.call(nextVM[key])) {
+        prevVM[key] = nextVM[key];
+      }
     });
     
     _.chain(Object.getOwnPropertyNames(nextVM.__proto__)).filter(key => key !== 'constructor').value().forEach(key => {
       prevVM.__proto__[key] = nextVM.__proto__[key];
     });
-    
-    $rootScope.$apply();
+  
+    scope.$apply();
   });
   
   module.hot.accept(['./flow/sidebar.html'], function () {

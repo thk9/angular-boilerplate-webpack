@@ -1,2 +1,26 @@
-<h3 class="h3 text-info">Hello world!</h3>
-<h4 class="h4 text-primary" ng-bind="vm.description | bkPostfix: '!!!': 'bkPostfixPlaceholder'"></h4>
+<section class="container">
+  <h3 class="h3 text-info">Hello world!</h3>
+  <h4 class="h4 text-primary" ng-bind="vm.description | bkPostfix: '!!!': 'bkPostfixPlaceholder'"></h4>
+  
+  <form role="form" class="form" novalidate>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input type="email" class="form-control" id="email" placeholder="please enter email..."
+        ng-model="vm.authority.email">
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" placeholder="please enter password"
+        ng-model="vm.authority.password">
+    </div>
+    
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="vm.authority.auto"> Auto drive modern/legacy car...
+      </label>
+    </div>
+    
+    <button type="submit" class="btn btn-default" ng-click="vm.handleAuthorityClick(vm.authority)">Submit</button>
+  </form>
+</section>
