@@ -8,6 +8,7 @@
 export class CollectionController {
   constructor($q) {
     this.$q = $q;
+    this.model = {};
   }
   
   requestRemoteToken() {}

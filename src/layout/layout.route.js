@@ -40,16 +40,15 @@ export const LayoutRoute = [
 ];
 
 if (module.hot) {
-  let element = angular.element(document.body); // eslint-disable-line
-  
   module.hot.accept(['./flow/sidebar.controller.js'], function () {
+    let element = angular.element(document.body); // eslint-disable-line
     let $injector = element.injector();
     
     if (!$injector) return;
     
     let { SidebarController } = require('./flow/sidebar.controller');
     
-    let target = angular.element(document.querySelector('aside'));
+    let target = angular.element(document.querySelector('#layout_sidebar'));
     let scope = target.scope();
     let prevVM = scope.vm;
     let nextVM = $injector.instantiate(SidebarController);
@@ -70,14 +69,31 @@ if (module.hot) {
     scope.$apply();
   });
   
+  module.hot.accept(['./flow/navbar.html'], function () {
+    let element = angular.element(document.body); // eslint-disable-line
+    let $injector = element.injector();
+    
+    if (!$injector) return;
+    
+    let $compile = $injector.get('$compile');
+    let template = require('./flow/navbar.html');
+    let target = angular.element(document.querySelector('#layout_navbar'));
+    let scope = target.scope();
+    let compiledTemplate = $compile(template)(scope);
+    
+    target.empty().append(compiledTemplate);
+    scope.$apply();
+  });
+  
   module.hot.accept(['./flow/sidebar.html'], function () {
+    let element = angular.element(document.body); // eslint-disable-line
     let $injector = element.injector();
     
     if (!$injector) return;
     
     let $compile = $injector.get('$compile');
     let template = require('./flow/sidebar.html');
-    let target = angular.element(document.querySelector('aside'));
+    let target = angular.element(document.querySelector('#layout_sidebar'));
     let scope = target.scope();
     
     for (let reflection of _template_storage) {
@@ -89,38 +105,21 @@ if (module.hot) {
     target.empty().append(compiledTemplate);
     scope.$apply();
   });
-
-  module.hot.accept(['./flow/navbar.html'], function () {
-    let $injector = element.injector();
-  
-    if (!$injector) return;
-  
-    let $rootScope = $injector.get('$rootScope');
-    let $compile = $injector.get('$compile');
-    let template = require('./flow/navbar.html');
-    let target = angular.element(document.querySelector('header'));
-    let scope = target.scope();
-  
-    let compiledTemplate = $compile(template)(scope);
-  
-    target.empty().append(compiledTemplate);
-    $rootScope.$apply();
-  });
   
   module.hot.accept(['./flow/core.html'], function () {
+    let element = angular.element(document.body); // eslint-disable-line
     let $injector = element.injector();
     
     if (!$injector) return;
     
-    let $rootScope = $injector.get('$rootScope');
     let $compile = $injector.get('$compile');
     let template = require('./flow/core.html');
-    let target = angular.element(document.querySelector('article'));
+    let target = angular.element(document.querySelector('#layout_core'));
     let scope = target.scope();
     
     let compiledTemplate = $compile(template)(scope);
     
     target.empty().append(compiledTemplate);
-    $rootScope.$apply();
+    scope.$apply();
   });
 }

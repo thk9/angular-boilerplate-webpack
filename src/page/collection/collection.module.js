@@ -5,11 +5,18 @@
 
 'use strict';
 
-import { $collectionRouterConfig } from './collection.route';
+import { CollectionRoute } from './collection.route';
 
 // share module name
 const COLLECTION_MODULE = 'app.collection';
 
-angular.module(COLLECTION_MODULE, []).config($collectionRouterConfig);
+angular.module(COLLECTION_MODULE, [])
+  // eslint-disable-next-line angular/di
+  // router config implement
+  .config(['$stateProvider', function ($stateProvider) {
+    CollectionRoute.forEach((route) => {
+      $stateProvider.state(route);
+    });
+  }]);
 
 export { COLLECTION_MODULE };
