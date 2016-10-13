@@ -37,18 +37,20 @@ angular.module('App', dependencies)
   .config($reduxStoreConfig)
   .config($stateProviderConfig);
 
-angular.element(document).ready(() => {
-  let element = angular.element(document.body); // eslint-disable-line
-  let $injector = element.injector();
-  let _get = $injector.get;
-  let _storage = new Map();
-  let _template_storage = new Map();
+if (module.hot) {
+  angular.element(document).ready(() => {
+    let element = angular.element(document.body); // eslint-disable-line
+    let $injector = element.injector();
+    let _get = $injector.get;
+    let _storage = new Map();
+    let _template_storage = new Map();
 
-  $injector.register = _storage.set.bind(_storage);
-  $injector.get = name => _storage.has(name) ? _storage.get(name) : _get(name);
+    $injector.register = _storage.set.bind(_storage);
+    $injector.get = name => _storage.has(name) ? _storage.get(name) : _get(name);
 
-  window.$injector = $injector;
-  window.$rootScope = $injector.get('$rootScope');
-  window.$compile = $injector.get('$compile');
-  window._template_storage = _template_storage;
-});
+    window.$injector = $injector;
+    window.$rootScope = $injector.get('$rootScope');
+    window.$compile = $injector.get('$compile');
+    window._template_storage = _template_storage;
+  });
+}

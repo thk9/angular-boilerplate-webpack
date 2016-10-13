@@ -8,5 +8,5 @@
 /**
  * @description - just redux store config
  */
-export function /* @ngInject */ $reduxStoreConfig($ngReduxProvider) {
+export /* @ngInject */ function $reduxStoreConfig($ngReduxProvider) {
 }
