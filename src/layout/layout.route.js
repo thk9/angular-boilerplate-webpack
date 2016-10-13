@@ -116,10 +116,13 @@ if (module.hot) {
     let template = require('./flow/core.html');
     let target = angular.element(document.querySelector('#layout_core'));
     let scope = target.scope();
-    
-    let compiledTemplate = $compile(template)(scope);
-    
-    target.empty().append(compiledTemplate);
+
+    let middleware = $compile(template)(scope);
+    let prevNestPage = $('#layout_page');
+
+    middleware.find('#layout_page').replaceWith(prevNestPage);
+
+    target.empty().append(middleware);
     scope.$apply();
   });
 }
