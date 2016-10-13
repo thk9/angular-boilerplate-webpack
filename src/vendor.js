@@ -10,10 +10,7 @@ import 'angular-ui-router';
 import 'angular-ui-notification';
 
 // none standard es6 module package
+import 'jquery';
 import 'lodash';
 import 'redux';
 import 'ng-redux';
-
-import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.css';
-import 'angular-ui-notification/dist/angular-ui-notification.css';

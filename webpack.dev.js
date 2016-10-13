@@ -9,7 +9,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   entry: {
     application: ['webpack-dev-server/client?http://localhost:8000', 'webpack/hot/dev-server', './src/app.js'],
-    vendor: ['./src/vendor.js']
+    vendor: ['./src/vendor.js'],
+    vendor_css: ['./src/vendor_css.js']
   },
   
   output: {
@@ -81,6 +82,10 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader'
+      },
+      {
+        test: require.resolve('jquery'),
+        loader: 'expose?$!expose?jQuery'
       }
     ]
   },
@@ -88,7 +93,7 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['application', 'vendor']
+      name: ['application', 'vendor', 'vendor_css']
     }),
     new webpack.DefinePlugin({
       'process.env': {

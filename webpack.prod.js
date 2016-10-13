@@ -9,7 +9,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: {
     application: ['./src/app.js'],
-    vendor: ['./src/vendor.js']
+    vendor: ['./src/vendor.js'],
+    vendor_css: ['./src/vendor_css.js']
   },
   
   output: {
@@ -79,6 +80,10 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader'
+      },
+      {
+        test: require.resolve('jquery'),
+        loader: 'expose?$!expose?jQuery'
       }
     ]
   },
@@ -88,7 +93,7 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['application', 'vendor']
+      name: ['application', 'vendor', 'vendor_css']
     }),
     new ExtractTextPlugin('asset/css/[name].[hash].css'),
     new webpack.DefinePlugin({

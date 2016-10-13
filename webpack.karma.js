@@ -73,6 +73,10 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader'
+      },
+      {
+        test: require.resolve('jquery'),
+        loader: 'expose?$!expose?jQuery'
       }
     ]
   },
