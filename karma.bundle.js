@@ -11,7 +11,10 @@ import 'angular-bootstrap';
 import 'angular-ui-router';
 
 // none standard es6 module package
+import 'jquery';
 import 'lodash';
+import 'redux';
+import 'ng-redux';
 
 // resolve all application files
 import './src/app';
