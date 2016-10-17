@@ -50,7 +50,7 @@ module.exports = {
         exclude: /(node_modules|spec)/,
         loaders: [
           // 'ng-annotate-loader?add=true',
-          'babel-loader?presets[]=es2015&cacheDirectory=true',
+          'babel-loader?presets[]=es2015&presets[]=stage-3&plugins[]=transform-function-bind&cacheDirectory=true',
           'istanbul-instrumenter-loader?esModules=true',
         ]
       },
