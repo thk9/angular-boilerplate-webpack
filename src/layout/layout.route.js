@@ -7,6 +7,8 @@
 
 /* eslint-disable angular/document-service */
 import _ from 'lodash';
+
+import { AuthorizeController } from './authority/authorize.controller';
 import { SidebarController } from './flow/sidebar.controller';
 
 // router rule declare
@@ -16,7 +18,9 @@ export const LayoutRoute = [
     url: '/authorize',
     views: {
       'core': {
-        template: require('./authority/authorize.html')
+        template: require('./authority/authorize.html'),
+        controller: AuthorizeController,
+        controllerAs: 'vm'
       }
     }
   },
