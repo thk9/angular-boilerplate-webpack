@@ -9,6 +9,7 @@
 
 import { $stateProviderConfig } from './config/$state.config';
 import { $reduxStoreConfig } from './config/$redux.config';
+import { APIMiddleware } from './redux/api.middleware';
 
 import { LAYOUT_MODULE } from './layout/layout.module';
 import { SHARE_MODULE } from './share/share.module';
@@ -35,7 +36,8 @@ const dependencies = [
  */
 angular.module('App', dependencies)
   .config($reduxStoreConfig)
-  .config($stateProviderConfig);
+  .config($stateProviderConfig)
+  .factory('APIMiddleware', APIMiddleware);
 
 if (module.hot) {
   angular.element(document).ready(() => {

@@ -6,10 +6,13 @@
 
 /* @ngInject */
 export class CollectionController {
-  constructor($q) {
+  constructor($q, $scope, $ngRedux, CollectionActions) {
     this.$q = $q;
-    this.model = {};
+
+    let disconnect = $ngRedux.connect((state) => ({
+      collection: state.collection
+    }), CollectionActions)(this);
+
+    $scope.$on('$destroy', disconnect);
   }
-  
-  requestRemoteToken() {}
 }
