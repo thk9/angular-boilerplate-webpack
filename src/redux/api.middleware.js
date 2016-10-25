@@ -1,6 +1,6 @@
 'use strict';
 
-import { API_REQUEST } from './api.config';
+import { API_REQUEST, API_TOAST } from './api.config';
 
 export function APIMiddleware($http) {
   return store => next => action => { // eslint-disable-line
@@ -18,10 +18,13 @@ export function APIMiddleware($http) {
           payload: resp.data
         });
       })
-      .catch(err => {
+      .catch(() => {
         next({
           type: requestError,
-          payload: err.data
+          [API_TOAST]: {
+            method: 'error',
+            message: 'Network Failed.....'
+          }
         });
       });
   };

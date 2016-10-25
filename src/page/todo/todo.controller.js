@@ -4,14 +4,17 @@
  */
 'use strict';
 
+import * as TodoActions from './action.creator';
+
 /* @ngInject */
-export class CollectionController {
-  constructor($q, $scope, $ngRedux, CollectionActions) {
+export class TodoController {
+  constructor($q, $scope, $ngRedux) {
     this.$q = $q;
 
     let disconnect = $ngRedux.connect((state) => ({
-      collection: state.collection
-    }), CollectionActions)(this);
+      status: state.todo.view.status,
+      list: state.todo.view.list
+    }), TodoActions)(this);
 
     $scope.$on('$destroy', disconnect);
   }

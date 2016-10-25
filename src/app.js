@@ -10,10 +10,11 @@
 import { $stateProviderConfig } from './config/$state.config';
 import { $reduxStoreConfig } from './config/$redux.config';
 import { APIMiddleware } from './redux/api.middleware';
+import { toastrMiddleware } from './redux/toast.middleware';
 
 import { LAYOUT_MODULE } from './layout/layout.module';
 import { SHARE_MODULE } from './share/share.module';
-import { COLLECTION_MODULE } from './page/page.barrel';
+import { TODO_MODULE } from './page/page.barrel';
 
 const dependencies = [
   'ui.router',
@@ -24,7 +25,7 @@ const dependencies = [
   
   LAYOUT_MODULE,
   SHARE_MODULE,
-  COLLECTION_MODULE
+  TODO_MODULE
 ];
 
 /**
@@ -37,22 +38,5 @@ const dependencies = [
 angular.module('App', dependencies)
   .config($reduxStoreConfig)
   .config($stateProviderConfig)
-  .factory('APIMiddleware', APIMiddleware);
-
-if (module.hot) {
-  angular.element(document).ready(() => {
-    let element = angular.element(document.body); // eslint-disable-line
-    let $injector = element.injector();
-    let _get = $injector.get;
-    let _storage = new Map();
-    let _template_storage = new Map();
-
-    $injector.register = _storage.set.bind(_storage);
-    $injector.get = name => _storage.has(name) ? _storage.get(name) : _get(name);
-
-    window.$injector = $injector;
-    window.$rootScope = $injector.get('$rootScope');
-    window.$compile = $injector.get('$compile');
-    window._template_storage = _template_storage;
-  });
-}
+  .factory('APIMiddleware', APIMiddleware)
+  .factory('toastrMiddleware', toastrMiddleware);

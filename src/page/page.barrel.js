@@ -3,4 +3,13 @@
  */
 'use strict';
 
-export * from './collection/collection.module';
+import { combineReducers } from 'redux';
+import { todoViewReducer } from './todo/action.reducer';
+
+// export feature module
+export * from './todo/todo.module';
+
+// export feature root reducer
+export const TodoRootReducer = combineReducers({
+  view: todoViewReducer
+});

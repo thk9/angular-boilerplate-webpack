@@ -3,15 +3,15 @@
  */
 'use strict';
 
-import { REMOTE_COLLECTION_TYPES } from './action.type';
+import { REMOTE_TODO_TYPES } from './action.type';
 import { API_BASE, API_REQUEST } from '../../redux/api.config';
 
-export function requestRemoteCollection(person) {
+export function requestCreateTodo(person) {
   return {
     [API_REQUEST]: {
-      types: REMOTE_COLLECTION_TYPES,
+      types: REMOTE_TODO_TYPES,
       config: {
-        url: `${API_BASE}/v2/collection`,
+        url: `${API_BASE}/v2/todo`,
         method: 'POST',
         data: person
       }

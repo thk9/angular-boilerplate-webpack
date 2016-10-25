@@ -63,20 +63,3 @@ export /* @ngInject */ function bkPromptFactory() {
     return _.escape(structure.errorDesc);
   }
 }
-
-// 普通服务热更新暂定为此
-if (module.hot) {
-  module.hot.accept();
-  
-  let element = angular.element(document.body); // eslint-disable-line
-  let $injector = element.injector();
-  
-  if ($injector) {
-    let bkPrompt = $injector.get('bkPrompt');
-    let $rootScope = $injector.get('$rootScope');
-    let bkHotPrompt = $injector.invoke(bkPromptFactory);
-    
-    angular.extend(bkPrompt, bkHotPrompt);
-    $rootScope.$apply();
-  }
-}
