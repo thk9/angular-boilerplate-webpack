@@ -18,4 +18,13 @@ export class TodoController {
 
     $scope.$on('$destroy', disconnect);
   }
+
+  /**
+   * @description - validate form status
+   * @param person
+   */
+  handleTodoSubmit(person) {
+    // validate person here
+    this.requestCreateTodo(person);
+  }
 }
