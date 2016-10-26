@@ -12,6 +12,8 @@ module.exports = {
     vendor: ['./src/vendor.js'],
     vendor_css: ['./src/vendor_css.js']
   },
+
+  debug: true,
   
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -58,6 +60,14 @@ module.exports = {
         exclude: /node_modules/,
         loaders: [
           'ng-annotate-loader?add=true',
+          'babel-loader?presets[]=es2015&presets[]=stage-3&plugins[]=transform-function-bind&cacheDirectory=true'
+        ]
+      },
+      {
+        test: /\.factory\.js$/,
+        exclude: /node_modules/,
+        loaders: [
+          'ng-hot-loader?prefix=bk',
           'babel-loader?presets[]=es2015&presets[]=stage-3&plugins[]=transform-function-bind&cacheDirectory=true'
         ]
       },
