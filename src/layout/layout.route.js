@@ -39,3 +39,15 @@ export const LayoutRoute = [
     }
   }
 ];
+
+if (module.hot) {
+  module.hot.accept(['./flow/sidebar.html'], function () {
+    let element = angular.element(document.body); // eslint-disable-line
+    let $injector = element.injector();
+    let template = require('./flow/sidebar.html');
+    let $hmr = $injector.get('$hmr');
+    let targetModuleName = 'application_sidebar_template';
+
+    $hmr.notify(targetModuleName, template);
+  });
+}

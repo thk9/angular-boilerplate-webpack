@@ -7,6 +7,8 @@
  * @since 2016/09/13
  */
 
+'use strict';
+
 import { $stateProviderConfig } from './config/$state.config';
 import { $reduxStoreConfig } from './config/$redux.config';
 import { APIMiddleware } from './redux/api.middleware';
@@ -15,6 +17,7 @@ import { toastrMiddleware } from './redux/toast.middleware';
 import { LAYOUT_MODULE } from './layout/layout.module';
 import { SHARE_MODULE } from './share/share.module';
 import { TODO_MODULE } from './page/page.barrel';
+import { HMR_MODULE } from './HMR/hmr.module';
 
 const dependencies = [
   'ui.router',
@@ -25,7 +28,8 @@ const dependencies = [
   
   LAYOUT_MODULE,
   SHARE_MODULE,
-  TODO_MODULE
+  TODO_MODULE,
+  HMR_MODULE
 ];
 
 /**
@@ -39,4 +43,8 @@ angular.module('App', dependencies)
   .config($reduxStoreConfig)
   .config($stateProviderConfig)
   .factory('APIMiddleware', APIMiddleware)
-  .factory('toastrMiddleware', toastrMiddleware);
+  .factory('toastrMiddleware', toastrMiddleware)
+  .run(function ($state, $rootScope) {
+    window.$state = $state;
+    window.$rootScope = $rootScope;
+  });

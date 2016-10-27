@@ -3,8 +3,6 @@
  * @author - bornkiller <hjj491229492@hotmail.com>
  */
 
-import _ from 'lodash';
-
 import { TodoController } from './todo.controller';
 
 // router rule declare

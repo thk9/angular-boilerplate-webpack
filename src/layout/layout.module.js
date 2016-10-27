@@ -12,7 +12,6 @@ const LAYOUT_MODULE = 'app.layout';
 
 angular.module(LAYOUT_MODULE, [])
   // eslint-disable-next-line angular/di
-  // router config implement
   .config(['$stateProvider', function ($stateProvider) {
     LayoutRoute.forEach((route) => {
       $stateProvider.state(route);
