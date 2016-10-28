@@ -41,6 +41,16 @@ export const LayoutRoute = [
 ];
 
 if (module.hot) {
+  module.hot.accept(['./flow/core.html'], function () {
+    let element = angular.element(document.body); // eslint-disable-line
+    let $injector = element.injector();
+    let $hmr = $injector.get('$hmr');
+    let targetModuleName = 'application_core_template';
+    let template = require('./flow/core.html');
+
+    $hmr.notify(targetModuleName, template);
+  });
+
   module.hot.accept(['./flow/sidebar.html'], function () {
     let element = angular.element(document.body); // eslint-disable-line
     let $injector = element.injector();

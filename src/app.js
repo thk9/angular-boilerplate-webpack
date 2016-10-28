@@ -16,7 +16,7 @@ import { toastrMiddleware } from './redux/toast.middleware';
 
 import { LAYOUT_MODULE } from './layout/layout.module';
 import { SHARE_MODULE } from './share/share.module';
-import { TODO_MODULE } from './page/page.barrel';
+import { TODO_MODULE, LOVE_MODULE } from './page/page.barrel';
 import { HMR_MODULE } from './HMR/hmr.module';
 
 const dependencies = [
@@ -29,6 +29,7 @@ const dependencies = [
   LAYOUT_MODULE,
   SHARE_MODULE,
   TODO_MODULE,
+  LOVE_MODULE,
   HMR_MODULE
 ];
 
