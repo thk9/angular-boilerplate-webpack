@@ -38,8 +38,38 @@ export /* @ngInject */ function HMRProvider() {
         hotModuleType === 'template' ? hotUpdateTemplate(viewName, hotModule) : hotUpdateController(viewName, hotModule);
       }
 
+      if ($state.includes(stateName) && !$state.is(stateName)) {
+        hotUpdateBox(viewName, hotModule);
+      }
+
       // 此处仅修改router声明, reload的时候才会生效,使之符合HMR原则
       subject.next(hotModule);
+    }
+
+    function hotUpdateBox(viewName, template) {
+      let selector = `[ui-view=${viewName}]`;
+      let target = angular.element(document.querySelector(selector));
+      let scope = target.scope();
+      let middleware = $compile(template)(scope);
+      let subViewTargets = middleware.find('[ui-view]');
+
+      if (subViewTargets.length) {
+        let subViewSelectors = subViewTargets.map(function () {
+          let subViwName = $(this).attr('ui-view');
+
+          return `[ui-view=${subViwName}]`;
+        }).toArray();
+
+        middleware = subViewSelectors.reduce(function (prev, selector) {
+          prev.find(selector).replaceWith($(selector));
+
+          return prev;
+        }, middleware);
+
+        target.empty().append(middleware);
+      } else {
+        hotUpdateTemplate(viewName, template);
+      }
     }
 
     function hotUpdateTemplate(viewName, template) {
@@ -48,7 +78,7 @@ export /* @ngInject */ function HMRProvider() {
       let scope = angular.element(target).scope();
       let middleware = $compile(template)(scope);
 
-      $(selector).replaceWith(middleware);
+      $(selector).empty().append(middleware);
       scope.$apply();
     }
 
