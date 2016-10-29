@@ -67,10 +67,19 @@ module.exports = {
         test: /\.factory\.js$/,
         exclude: /node_modules/,
         loaders: [
-          'ng-hot-loader?prefix=bk',
+          // 'ng-hot-loader?prefix=bk',
           'babel-loader?presets[]=es2015&presets[]=stage-3&plugins[]=transform-function-bind&cacheDirectory=true'
         ]
       },
+      {
+        test: /\.route\.js$/,
+        exclude: /node_modules/,
+        loaders: [
+          'babel-loader?presets[]=es2015&presets[]=stage-3&plugins[]=transform-function-bind&cacheDirectory=true',
+          'ng-hot-loader'
+        ]
+      },
+      
       // UI configuration
       {
         test: /\.css$/,
