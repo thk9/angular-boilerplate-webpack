@@ -11,6 +11,7 @@
     "url": "https://github.com/bornkiller/angular-boilerplate.git"
   },
   "dependencies": {
+    "@bornkiller/observable": "^0.2.0",
     "angular": "^1.5.8",
     "angular-animate": "^1.5.8",
     "angular-bootstrap": "^0.12.2",
