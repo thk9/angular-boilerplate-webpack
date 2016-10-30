@@ -7,7 +7,7 @@
 import { omit } from 'lodash';
 import { has } from 'lodash';
 import { chain } from 'lodash';
-import { Subject } from 'rxjs/Subject';
+import { Observable } from '@bornkiller/observable';
 
 /* eslint-disable angular/document-service, angular/angularelement */
 export /* @ngInject */ function HMRProvider() {
@@ -18,7 +18,7 @@ export /* @ngInject */ function HMRProvider() {
   
   // name = state.name + views.name + template / controller
   function register(name) {
-    Storage.set(name, new Subject());
+    Storage.set(name, new Observable());
   }
   
   function pick(name) {
@@ -31,7 +31,7 @@ export /* @ngInject */ function HMRProvider() {
     };
     
     function notify(name, hotModule) {
-      let subject = Storage.get(name);
+      let observable = Storage.get(name);
       let [stateName, viewName, hotModuleType] = name.split('_');
       
       // 需要判定匹配目标是否处于激活状态
@@ -40,7 +40,7 @@ export /* @ngInject */ function HMRProvider() {
       }
       
       // 此处修改router声明, reload的时候才会生效,使之符合HMR原则
-      subject.next(hotModule);
+      observable.next(hotModule);
     }
     
     function hotUpdateView(viewName, template) {
