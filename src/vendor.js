@@ -5,7 +5,7 @@
  */
 import 'angular';
 import 'angular-animate';
-import 'angular-bootstrap';
+import 'angular-ui-bootstrap';
 import 'angular-ui-router';
 import 'angular-ui-notification';
 
