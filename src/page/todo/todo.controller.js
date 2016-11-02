@@ -31,8 +31,7 @@ export class TodoController {
 
   displayPoemModal() {
     this.$uibModal.open({
-      template: require('./modal.html'),
-      identity: 'HM_MODAL_YOUTH'
+      template: require('./modal.html')
     });
   }
 }
@@ -44,6 +43,6 @@ if (module.hot) {
     let $hmr = $injector.get('$hmr');
     let template = require('./modal.html');
 
-    $hmr.update('HM_MODAL_YOUTH', template);
+    $hmr.update(template);
   });
 }

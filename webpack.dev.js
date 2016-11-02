@@ -47,7 +47,8 @@ module.exports = {
         test: /\.html$/,
         exclude: /index\.html$/,
         loaders: [
-          'html-loader?attrs[]=img:src&root=' + path.resolve(__dirname, 'src')
+          'html-loader?attrs[]=img:src&root=' + path.resolve(__dirname, 'src'),
+          'ng-hot-loader'
         ]
       },
       // html-webpack-plugin weird issue fix
