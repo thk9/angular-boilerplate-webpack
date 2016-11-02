@@ -31,18 +31,7 @@ export class TodoController {
 
   displayPoemModal() {
     this.$uibModal.open({
-      template: require('./modal.html')
+      template: require('./todo.modal.html')
     });
   }
-}
-
-if (module.hot) {
-  module.hot.accept(['./modal.html'], function () {
-    let element = angular.element(document.body);
-    let $injector = element.injector();
-    let $hmr = $injector.get('$hmr');
-    let template = require('./modal.html');
-
-    $hmr.update(template);
-  });
 }
