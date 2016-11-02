@@ -9,6 +9,8 @@ import { has } from 'lodash';
 import { chain } from 'lodash';
 import { Observable } from '@bornkiller/observable';
 
+const captureModalIdentity = /^<!--\s@ngModalIdentity\s(.+)\s-->/;
+
 /* eslint-disable angular/document-service, angular/angularelement */
 export /* @ngInject */ function HMRProvider() {
   const Storage = new Map();
@@ -39,7 +41,8 @@ export /* @ngInject */ function HMRProvider() {
     };
 
     // modal implement
-    function update(modalIdentity, hotModalModule) {
+    function update(hotModalModule) {
+      let [, modalIdentity] = captureModalIdentity.exec(hotModalModule);
       let lastModal = Storage.get(modalIdentity) || {};
       let futureModal = {...lastModal, template: hotModalModule};
 
@@ -170,9 +173,13 @@ export /* @ngInject */ function HMRModalDecoratorConfig($provide, $hmrProvider) 
     };
 
     function HMRModalOpen(options) {
-      let hmrModalDeclare = $hmrProvider.pick(options.identity);
+      let { template } = options;
+      let [, identity] = captureModalIdentity.exec(template);
+      console.log(identity);
 
-      $hmrProvider.swapModalStatus(options.identity, true);
+      let hmrModalDeclare = $hmrProvider.pick(identity);
+
+      $hmrProvider.swapModalStatus(identity, true);
 
       if (hmrModalDeclare) {
         options = {...options, ...hmrModalDeclare};
@@ -181,9 +188,9 @@ export /* @ngInject */ function HMRModalDecoratorConfig($provide, $hmrProvider) 
       let modalInstance = $delegate.open(options);
 
       modalInstance.result.then(() => {
-        $hmrProvider.swapModalStatus(options.identity, false);
+        $hmrProvider.swapModalStatus(identity, false);
       }).catch(() => {
-        $hmrProvider.swapModalStatus(options.identity, false);
+        $hmrProvider.swapModalStatus(identity, false);
       });
 
       return modalInstance;
