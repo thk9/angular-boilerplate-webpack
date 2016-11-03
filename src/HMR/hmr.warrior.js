@@ -19,6 +19,15 @@ export function analyzeModalIdentity(template) {
 }
 
 /**
+ * @description - modal template selector
+ *
+ * @param {string} additionalWindowClass
+ * @return {string}
+ */
+export function huntModalSelector(additionalWindowClass) {
+  return `.${additionalWindowClass} .modal-content`;
+}
+/**
  * @description - transform modal identity (absolute path) into normal class name
  *
  * @param {string} identity

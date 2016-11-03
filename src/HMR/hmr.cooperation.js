@@ -9,7 +9,7 @@ import { has } from 'lodash';
 import { chain } from 'lodash';
 import { Observable } from '@bornkiller/observable';
 
-import { analyzeModalIdentity, transformModalClass, resolveModalClass } from './hmr.warrior';
+import { analyzeModalIdentity, huntModalSelector, transformModalClass, resolveModalClass } from './hmr.warrior';
 
 /* eslint-disable angular/document-service, angular/angularelement */
 export /* @ngInject */ function HMRProvider() {
@@ -58,7 +58,9 @@ export /* @ngInject */ function HMRProvider() {
     }
 
     function hotUpdateModal(hotModalTemplate) {
-      let selector = '.modal-content';
+      let identity = analyzeModalIdentity(hotModalTemplate);
+      let additionalWindowClass = transformModalClass(identity);
+      let selector = huntModalSelector(additionalWindowClass);
       let target = angular.element(document.querySelector(selector));
       let scope = target.scope();
       let middleware = $compile(hotModalTemplate)(scope);
