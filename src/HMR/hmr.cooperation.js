@@ -5,11 +5,10 @@
 'use strict';
 
 import { omit } from 'lodash';
-import { has } from 'lodash';
-import { chain } from 'lodash';
 import { Observable } from '@bornkiller/observable';
 
-import { analyzeModalIdentity, huntModalSelector, transformModalClass, resolveModalClass } from './hmr.warrior';
+import { analyzeModalIdentity, transformModalClass, resolveModalClass } from './hmr.warrior';
+import { updateModalTemplate, updateViewTemplate, updateViewController } from './hmr.worker';
 
 /* eslint-disable angular/document-service, angular/angularelement */
 export /* @ngInject */ function HMRProvider() {
@@ -49,23 +48,10 @@ export /* @ngInject */ function HMRProvider() {
       let modalIdentity = analyzeModalIdentity(hotModalModule);
       let lastModalOptions = Storage.get(modalIdentity) || {};
 
-      if (lastModalOptions.active) {
-        hotUpdateModal(hotModalModule);
-      }
+      lastModalOptions.active && updateModalTemplate($compile, hotModalModule);
 
       // update modal options
       insert(modalIdentity, {template: hotModalModule});
-    }
-
-    function hotUpdateModal(hotModalTemplate) {
-      let identity = analyzeModalIdentity(hotModalTemplate);
-      let additionalWindowClass = transformModalClass(identity);
-      let selector = huntModalSelector(additionalWindowClass);
-      let target = angular.element(document.querySelector(selector));
-      let scope = target.scope();
-      let middleware = $compile(hotModalTemplate)(scope);
-
-      target.empty().append(middleware);
     }
 
     // route implement
@@ -75,57 +61,11 @@ export /* @ngInject */ function HMRProvider() {
 
       // 需要判定匹配目标是否处于激活状态
       if ($state.includes(stateName)) {
-        hotModuleType === 'template' ? hotUpdateView(viewName, hotModule) : hotUpdateController(viewName, hotModule);
+        hotModuleType === 'template' ? updateViewTemplate($compile, viewName, hotModule) : updateViewController($injector, viewName, hotModule);
       }
 
       // 此处修改router声明, reload的时候才会生效,使之符合HMR原则
       observable.next(hotModule);
-    }
-
-    function hotUpdateView(viewName, template) {
-      let selector = `[ui-view=${viewName}]`;
-      let target = angular.element(document.querySelector(selector));
-      let scope = target.scope();
-      let middleware = $compile(template)(scope);
-      let subViewTargets = middleware.find('[ui-view]');
-
-      if (subViewTargets.length) {
-        let subViewSelectors = subViewTargets.map(function () {
-          let subViwName = $(this).attr('ui-view');
-
-          return `[ui-view=${subViwName}]`;
-        }).toArray();
-
-        middleware = subViewSelectors.reduce(function (prev, selector) {
-          prev.find(selector).replaceWith($(selector));
-
-          return prev;
-        }, middleware);
-      }
-
-      target.empty().append(middleware);
-    }
-
-    function hotUpdateController(viewName, controller) {
-      let selector = `[ui-view=${viewName}]`;
-      let target = document.querySelector(selector);
-      let scope = angular.element(target).scope();
-      let prevVM = scope.vm;
-      let nextVM = $injector.instantiate(controller, {$scope: scope});
-      let toString = Object.prototype.toString;
-
-      // 假设所有关联属性在constructor内部声明,变量类型不变
-      chain(nextVM).keys().value().forEach(key => {
-        if (!has(prevVM, key) || toString.call(prevVM[key]) !== toString.call(nextVM[key])) {
-          prevVM[key] = nextVM[key];
-        }
-      });
-
-      chain(Object.getOwnPropertyNames(nextVM.__proto__)).filter(key => key !== 'constructor').value().forEach(key => {
-        prevVM.__proto__[key] = nextVM.__proto__[key];
-      });
-
-      scope.$apply();
     }
   }];
 }
