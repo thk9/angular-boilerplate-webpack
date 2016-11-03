@@ -15,8 +15,8 @@ export /* @ngInject */ function HMRProvider() {
   const Storage = new Map();
 
   this.register = register;
-  this.pick = pick;
   this.insert = insert;
+  this.storage = Storage;
 
   // name = state.name + views.name + template / controller
   function register(name) {
@@ -24,12 +24,11 @@ export /* @ngInject */ function HMRProvider() {
   }
 
   /**
-   * @deprecated
+   * @description - update or insert
+   *
+   * @param name
+   * @param value
    */
-  function pick(name) {
-    return Storage.get(name);
-  }
-
   function insert(name, value) {
     let last = Storage.get(name) || {};
     let future = {...last, ...value};
@@ -43,7 +42,7 @@ export /* @ngInject */ function HMRProvider() {
       update
     };
 
-    // modal implement
+    // HMR modal implement
     function update(hotModalModule) {
       let modalIdentity = analyzeModalIdentity(hotModalModule);
       let lastModalOptions = Storage.get(modalIdentity) || {};
@@ -54,7 +53,7 @@ export /* @ngInject */ function HMRProvider() {
       insert(modalIdentity, {template: hotModalModule});
     }
 
-    // route implement
+    // HMR route implement
     function notify(name, hotModule) {
       let observable = Storage.get(name);
       let [stateName, viewName, hotModuleType] = name.split('_');
@@ -87,11 +86,11 @@ export /* @ngInject */ function HMRStateProviderConfig($stateProvider, $hmrProvi
       $hmrProvider.register(templateAccessorToken);
       $hmrProvider.register(controllerAccessorToken);
 
-      $hmrProvider.pick(templateAccessorToken).subscribe(template => {
+      $hmrProvider.storage.get(templateAccessorToken).subscribe(template => {
         mirror.template = template;
       });
 
-      $hmrProvider.pick(controllerAccessorToken).subscribe(controller => {
+      $hmrProvider.storage.get(controllerAccessorToken).subscribe(controller => {
         mirror.controller = controller;
       });
 
@@ -128,7 +127,7 @@ export /* @ngInject */ function HMRModalDecoratorConfig($provide, $hmrProvider) 
       // whether HMR have done or the first time open modal, register identity
       $hmrProvider.insert(identity, {active: true, windowClass: flatWindowClass});
 
-      hmrModalOptions = $hmrProvider.pick(identity);
+      hmrModalOptions = $hmrProvider.storage.get(identity);
 
       options = {...options, ...hmrModalOptions};
 
