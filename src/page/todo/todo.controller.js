@@ -5,12 +5,13 @@
 'use strict';
 
 import * as TodoActions from './action.creator';
+import { TodoModalController } from './todo.modal.controller';
 
 /* @ngInject */
 export class TodoController {
   constructor($q, $scope, $ngRedux, $uibModal) {
     this.$q = $q;
-    this.$uibModal =$uibModal;
+    this.$uibModal = $uibModal;
 
     let disconnect = $ngRedux.connect((state) => ({
       status: state.todo.view.status,
@@ -31,7 +32,9 @@ export class TodoController {
 
   displayPoemModal() {
     this.$uibModal.open({
-      template: require('./todo.modal.html')
+      template: require('./todo.modal.html'),
+      controller: TodoModalController,
+      controllerAs: 'vm'
     });
   }
 }
