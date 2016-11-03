@@ -18,9 +18,10 @@ import { analyzeModalIdentity, transformModalClass, huntModalSelector } from './
 export function updateModalTemplate($compile, template) {
   let identity = analyzeModalIdentity(template);
   let additionalWindowClass = transformModalClass(identity);
-  let selector = huntModalSelector(additionalWindowClass);
-  let target = angular.element(document.querySelector(selector));
-  let scope = target.scope();
+  let rootModalSelector = `.${additionalWindowClass}`;
+  let childModalSelector = huntModalSelector(additionalWindowClass);
+  let scope = angular.element(document.querySelector(rootModalSelector)).scope();
+  let target = angular.element(document.querySelector(childModalSelector));
   let middleware = $compile(template)(scope);
 
   target.empty().append(middleware);

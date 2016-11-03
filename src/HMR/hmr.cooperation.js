@@ -13,10 +13,12 @@ import { updateModalTemplate, updateViewTemplate, updateViewController } from '.
 /* eslint-disable angular/document-service, angular/angularelement */
 export /* @ngInject */ function HMRProvider() {
   const Storage = new Map();
+  const ModalStorage = new Map();
 
   this.register = register;
   this.insert = insert;
   this.storage = Storage;
+  this.modalStorage = ModalStorage;
 
   // name = state.name + views.name + template / controller
   function register(name) {
@@ -42,15 +44,27 @@ export /* @ngInject */ function HMRProvider() {
       update
     };
 
-    // HMR modal implement
-    function update(hotModalModule) {
-      let modalIdentity = analyzeModalIdentity(hotModalModule);
-      let lastModalOptions = Storage.get(modalIdentity) || {};
+    /**
+     * @description - HMR modal implement
+     *
+     * @param hotModalModule
+     * @param {string} hotModalType - template or controller
+     *
+     * @todo - split situation template and controller
+     */
+    function update(hotModalModule, hotModalType) {
+      if (hotModalType == 'template') {
+        let modalIdentity = analyzeModalIdentity(hotModalModule);
+        let lastModalOptions = Storage.get(modalIdentity) || {};
 
-      lastModalOptions.active && updateModalTemplate($compile, hotModalModule);
+        lastModalOptions.active && updateModalTemplate($compile, hotModalModule);
 
-      // update modal options
-      insert(modalIdentity, {template: hotModalModule});
+        // update modal template options
+        insert(modalIdentity, {template: hotModalModule});
+      } else {
+        // update modal controller options
+        ModalStorage.set(hotModalModule.modal_hmr_identity, {controller: hotModalModule});
+      }
     }
 
     // HMR route implement
@@ -117,11 +131,12 @@ export /* @ngInject */ function HMRModalDecoratorConfig($provide, $hmrProvider) 
     };
 
     function HMRModalOpen(options) {
-      let {template, windowClass} = options;
+      let {template, controller, windowClass} = options;
       let identity = analyzeModalIdentity(template);
       let additionalWindowClass = transformModalClass(identity);
       let flatWindowClass = resolveModalClass(windowClass, additionalWindowClass);
       let hmrModalOptions;
+      let hmrModalController;
       let modalInstance;
 
       // whether HMR have done or the first time open modal, register identity
@@ -130,6 +145,11 @@ export /* @ngInject */ function HMRModalDecoratorConfig($provide, $hmrProvider) 
       hmrModalOptions = $hmrProvider.storage.get(identity);
 
       options = {...options, ...hmrModalOptions};
+
+      if (controller) {
+        hmrModalController = $hmrProvider.modalStorage.get(controller.modal_hmr_identity) || {};
+        options = {...options, ...hmrModalController};
+      }
 
       modalInstance = $delegate.open(options);
       modalInstance.result.then(() => {
