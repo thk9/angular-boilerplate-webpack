@@ -9,7 +9,7 @@ import { has } from 'lodash';
 import { chain } from 'lodash';
 import { Observable } from '@bornkiller/observable';
 
-const captureModalIdentity = /^<!--\s@ngModalIdentity\s(.+)\s-->/;
+import { analyzeModalIdentity, transformModalClass, resolveModalClass } from './hmr.warrior';
 
 /* eslint-disable angular/document-service, angular/angularelement */
 export /* @ngInject */ function HMRProvider() {
@@ -17,21 +17,25 @@ export /* @ngInject */ function HMRProvider() {
 
   this.register = register;
   this.pick = pick;
-  this.swapModalStatus = swapModalStatus;
+  this.insert = insert;
 
   // name = state.name + views.name + template / controller
   function register(name) {
     Storage.set(name, new Observable());
   }
 
+  /**
+   * @deprecated
+   */
   function pick(name) {
     return Storage.get(name);
   }
 
-  function swapModalStatus(modalIdentity, status) {
-    let lastModal = Storage.get(modalIdentity);
+  function insert(name, value) {
+    let last = Storage.get(name) || {};
+    let future = {...last, ...value};
 
-    Storage.set(modalIdentity, {...lastModal, active: status});
+    Storage.set(name, future);
   }
 
   this.$get = ['$injector', '$compile', '$state', function ($injector, $compile, $state) {
@@ -42,16 +46,15 @@ export /* @ngInject */ function HMRProvider() {
 
     // modal implement
     function update(hotModalModule) {
-      let [, modalIdentity] = captureModalIdentity.exec(hotModalModule);
-      let lastModal = Storage.get(modalIdentity) || {};
-      let futureModal = {...lastModal, template: hotModalModule};
+      let modalIdentity = analyzeModalIdentity(hotModalModule);
+      let lastModalOptions = Storage.get(modalIdentity) || {};
 
-      if (lastModal.active) {
+      if (lastModalOptions.active) {
         hotUpdateModal(hotModalModule);
       }
 
       // update modal options
-      Storage.set(modalIdentity, futureModal);
+      insert(modalIdentity, {template: hotModalModule});
     }
 
     function hotUpdateModal(hotModalTemplate) {
@@ -173,24 +176,25 @@ export /* @ngInject */ function HMRModalDecoratorConfig($provide, $hmrProvider) 
     };
 
     function HMRModalOpen(options) {
-      let { template } = options;
-      let [, identity] = captureModalIdentity.exec(template);
-      console.log(identity);
+      let {template, windowClass} = options;
+      let identity = analyzeModalIdentity(template);
+      let additionalWindowClass = transformModalClass(identity);
+      let flatWindowClass = resolveModalClass(windowClass, additionalWindowClass);
+      let hmrModalOptions;
+      let modalInstance;
 
-      let hmrModalDeclare = $hmrProvider.pick(identity);
+      // whether HMR have done or the first time open modal, register identity
+      $hmrProvider.insert(identity, {active: true, windowClass: flatWindowClass});
 
-      $hmrProvider.swapModalStatus(identity, true);
+      hmrModalOptions = $hmrProvider.pick(identity);
 
-      if (hmrModalDeclare) {
-        options = {...options, ...hmrModalDeclare};
-      }
+      options = {...options, ...hmrModalOptions};
 
-      let modalInstance = $delegate.open(options);
-
+      modalInstance = $delegate.open(options);
       modalInstance.result.then(() => {
-        $hmrProvider.swapModalStatus(identity, false);
+        $hmrProvider.insert(identity, {active: false});
       }).catch(() => {
-        $hmrProvider.swapModalStatus(identity, false);
+        $hmrProvider.insert(identity, {active: false});
       });
 
       return modalInstance;
