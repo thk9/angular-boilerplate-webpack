@@ -4,59 +4,64 @@
  */
 'use strict';
 
-const captureModalIdentity = /^<!--\s@ngModalIdentity\s(.+)\s-->/;
+import { isString, isFunction } from 'lodash';
+
+const captureModalIdentity = /^<!--\s@hmr_modal_identity\s(.+)\s-->/;
 
 /**
- * @description - analyze modal template identity
+ * @description - analyze modal template / controller identity
  *
- * @param {string} template
+ * @param {string} modal
  * @return {string}
  */
-export function analyzeModalIdentity(template) {
-  let match = captureModalIdentity.exec(template);
+export function analyzeModalIdentity(modal) {
+  if (isString(modal)) {
+    let match = captureModalIdentity.exec(modal);
+    return match[1];
+  } else if (isFunction(modal)) {
+    return modal.hmr_modal_identity;
+  } else {
+    return 'ng_hmr_no_operation';
+  }
+}
 
-  return match[1];
+/**
+ * @description - modal root selector
+ *
+ * @param {string} additionalClassName
+ * @return {string}
+ */
+export function huntRootModalSelector(additionalClassName) {
+  return `.${additionalClassName}`;
 }
 
 /**
  * @description - modal template selector
  *
- * @param {string} additionalWindowClass
+ * @param {string} additionalClassName
  * @return {string}
  */
-export function huntModalSelector(additionalWindowClass) {
-  return `.${additionalWindowClass} .modal-content`;
-}
-/**
- * @description - transform modal identity (absolute path) into normal class name
- *
- * @param {string} identity
- *
- * @return {string}
- *
- * @example
- * // src-page-love-love-modal-html
- * resolveModalClass('src/page/love/love.modal.html')
- */
-export function transformModalClass(identity) {
-  return identity.replace(/(\/|\.)/g, '-').toLowerCase();
+export function huntChildModalSelector(additionalClassName) {
+  return `.${additionalClassName} .modal-content`;
 }
 
 /**
  * @description - resolve modal identity into modal window class
  *
  * @param {string} windowClass
- * @param {string} additionalWindowClass
+ * @param {Array.<string>} modalIdentity
  *
  * @return {string}
  */
-export function resolveModalClass(windowClass, additionalWindowClass) {
-  switch (true) {
-    case !windowClass:
-      return additionalWindowClass;
-    case !windowClass.includes(additionalWindowClass):
-      return `${windowClass} ${additionalWindowClass}`;
-    default:
-      return windowClass;
+export function resolveModalClass(windowClass, modalIdentity) {
+  let nextIdentityList;
+  let modalIdentityList = modalIdentity.filter(item => isString(item)).join(' ');
+
+  if (isString(windowClass)) {
+    nextIdentityList = `${windowClass} ${modalIdentityList}`;
+  } else {
+    nextIdentityList = `${modalIdentityList}`;
   }
+
+  return {windowClass: nextIdentityList};
 }

@@ -5,7 +5,7 @@
 'use strict';
 
 import { chain, has } from 'lodash';
-import { analyzeModalIdentity, transformModalClass, huntModalSelector } from './hmr.warrior';
+import { analyzeModalIdentity, huntRootModalSelector, huntChildModalSelector } from './hmr.warrior';
 
 /* eslint-disable angular/document-service, angular/angularelement */
 
@@ -13,18 +13,46 @@ import { analyzeModalIdentity, transformModalClass, huntModalSelector } from './
  * @description - update modal instance template
  *
  * @param {function} $compile - Angular DI private
- * @param {string} template
+ * @param {string} template - fresh modal template
  */
 export function updateModalTemplate($compile, template) {
-  let identity = analyzeModalIdentity(template);
-  let additionalWindowClass = transformModalClass(identity);
-  let rootModalSelector = `.${additionalWindowClass}`;
-  let childModalSelector = huntModalSelector(additionalWindowClass);
-  let scope = angular.element(document.querySelector(rootModalSelector)).scope();
-  let target = angular.element(document.querySelector(childModalSelector));
-  let middleware = $compile(template)(scope);
+  let hmrModalIdentity = analyzeModalIdentity(template);
+  let rootModalSelector = huntRootModalSelector(hmrModalIdentity);
+  let childModalSelector = huntChildModalSelector(hmrModalIdentity);
 
-  target.empty().append(middleware);
+  let rootModalNode = document.querySelector(rootModalSelector);
+
+  if (rootModalNode) {
+    let childModalNode = document.querySelector(childModalSelector);
+    let scope = angular.element(rootModalNode).scope();
+    let target = angular.element(childModalNode);
+    let middleware = $compile(template)(scope);
+
+    target.empty().append(middleware);
+  }
+}
+
+
+/**
+ * @description - update modal instance controller
+ *
+ * @param {function} $injector - Angular DI private
+ * @param {string} controller - fresh modal controller
+ *
+ * @todo - implement
+ */
+export function updateModalController($injector, controller) {
+  let hmrModalIdentity = analyzeModalIdentity(controller);
+  let rootModalSelector = huntRootModalSelector(hmrModalIdentity);
+
+  let rootModalNode = document.querySelector(rootModalSelector);
+
+  if (rootModalNode) {
+    console.group('HMR modal controller');
+    console.log('HMR modal controller not supported in this version');
+    console.log(controller);
+    console.groupEnd('HMR modal controller');
+  }
 }
 
 /**
@@ -85,13 +113,5 @@ export function updateViewController($injector, viewName, controller) {
   });
 
   scope.$apply();
-}
-
-/**
- * @description - update modal instance controller
- *
- * @todo - implement
- */
-export function updateModalController() {
 }
 

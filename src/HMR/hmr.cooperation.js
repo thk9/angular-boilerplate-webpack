@@ -7,8 +7,8 @@
 import { omit } from 'lodash';
 import { Observable } from '@bornkiller/observable';
 
-import { analyzeModalIdentity, transformModalClass, resolveModalClass } from './hmr.warrior';
-import { updateModalTemplate, updateViewTemplate, updateViewController } from './hmr.worker';
+import { analyzeModalIdentity, resolveModalClass } from './hmr.warrior';
+import { updateModalTemplate, updateModalController, updateViewTemplate, updateViewController } from './hmr.worker';
 
 /* eslint-disable angular/document-service, angular/angularelement */
 export /* @ngInject */ function HMRProvider() {
@@ -16,26 +16,12 @@ export /* @ngInject */ function HMRProvider() {
   const ModalStorage = new Map();
 
   this.register = register;
-  this.insert = insert;
   this.storage = Storage;
   this.modalStorage = ModalStorage;
 
   // name = state.name + views.name + template / controller
   function register(name) {
     Storage.set(name, new Observable());
-  }
-
-  /**
-   * @description - update or insert
-   *
-   * @param name
-   * @param value
-   */
-  function insert(name, value) {
-    let last = Storage.get(name) || {};
-    let future = {...last, ...value};
-
-    Storage.set(name, future);
   }
 
   this.$get = ['$injector', '$compile', '$state', function ($injector, $compile, $state) {
@@ -49,21 +35,19 @@ export /* @ngInject */ function HMRProvider() {
      *
      * @param hotModalModule
      * @param {string} hotModalType - template or controller
-     *
-     * @todo - split situation template and controller
      */
     function update(hotModalModule, hotModalType) {
       if (hotModalType == 'template') {
-        let modalIdentity = analyzeModalIdentity(hotModalModule);
-        let lastModalOptions = Storage.get(modalIdentity) || {};
+        let modalTemplateIdentity = analyzeModalIdentity(hotModalModule);
 
-        lastModalOptions.active && updateModalTemplate($compile, hotModalModule);
-
-        // update modal template options
-        insert(modalIdentity, {template: hotModalModule});
+        ModalStorage.set(modalTemplateIdentity, {template: hotModalModule});
+        updateModalTemplate($compile, hotModalModule);
       } else {
         // update modal controller options
-        ModalStorage.set(hotModalModule.modal_hmr_identity, {controller: hotModalModule});
+        let modalControllerIdentity = analyzeModalIdentity(hotModalModule);
+
+        ModalStorage.set(modalControllerIdentity, {controller: hotModalModule});
+        updateModalController($injector, hotModalModule);
       }
     }
 
@@ -132,33 +116,16 @@ export /* @ngInject */ function HMRModalDecoratorConfig($provide, $hmrProvider) 
 
     function HMRModalOpen(options) {
       let {template, controller, windowClass} = options;
-      let identity = analyzeModalIdentity(template);
-      let additionalWindowClass = transformModalClass(identity);
-      let flatWindowClass = resolveModalClass(windowClass, additionalWindowClass);
-      let hmrModalOptions;
-      let hmrModalController;
-      let modalInstance;
+      let modalTemplateIdentity = analyzeModalIdentity(template);
+      let modalControllerIdentity = analyzeModalIdentity(controller);
+      let hmrModalWindowClass = resolveModalClass(windowClass, [modalTemplateIdentity, modalControllerIdentity]);
 
-      // whether HMR have done or the first time open modal, register identity
-      $hmrProvider.insert(identity, {active: true, windowClass: flatWindowClass});
+      let hmrModalTemplate = $hmrProvider.modalStorage.get(modalTemplateIdentity) || {template};
+      let hmrModalController = $hmrProvider.modalStorage.get(modalControllerIdentity) || {controller};
 
-      hmrModalOptions = $hmrProvider.storage.get(identity);
+      options = {...options, ...hmrModalTemplate, ...hmrModalController, ...hmrModalWindowClass};
 
-      options = {...options, ...hmrModalOptions};
-
-      if (controller) {
-        hmrModalController = $hmrProvider.modalStorage.get(controller.modal_hmr_identity) || {};
-        options = {...options, ...hmrModalController};
-      }
-
-      modalInstance = $delegate.open(options);
-      modalInstance.result.then(() => {
-        $hmrProvider.insert(identity, {active: false});
-      }).catch(() => {
-        $hmrProvider.insert(identity, {active: false});
-      });
-
-      return modalInstance;
+      return $delegate.open(options);
     }
   }]);
 }
