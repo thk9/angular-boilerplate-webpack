@@ -4,7 +4,7 @@
  */
 'use strict';
 
-import { omit } from 'lodash';
+import { omit, isEmpty } from 'lodash';
 import { Observable } from '@bornkiller/observable';
 
 import { analyzeModalIdentity, resolveModalClass } from './hmr.warrior';
@@ -24,7 +24,7 @@ export /* @ngInject */ function HMRProvider() {
     Storage.set(name, new Observable());
   }
 
-  this.$get = ['$injector', '$compile', '$state', function ($injector, $compile, $state) {
+  this.$get = ['$injector', '$compile', '$controller', '$timeout', '$state', '$uibResolve', function ($injector, $compile, $controller, $timeout, $state, $uibResolve) {
     return {
       notify,
       update
@@ -45,9 +45,23 @@ export /* @ngInject */ function HMRProvider() {
       } else {
         // update modal controller options
         let modalControllerIdentity = analyzeModalIdentity(hotModalModule);
+        let modalInstanceIdentity = `${modalControllerIdentity}-instance`;
+        let modalResolveIdentity = `${modalControllerIdentity}-resolve`;
+
+        let $uibModalInstance = ModalStorage.get(modalInstanceIdentity);
+        let modalResolveOptions = ModalStorage.get(modalResolveIdentity);
 
         ModalStorage.set(modalControllerIdentity, {controller: hotModalModule});
-        updateModalController($injector, hotModalModule);
+
+        if (isEmpty(modalResolveOptions)) {
+          updateModalController($controller, {$uibModalInstance: $uibModalInstance}, hotModalModule);
+        } else {
+          $uibResolve.resolve(modalResolveOptions).then(locals => {
+            $timeout(() => {
+              updateModalController($controller, {...locals, $uibModalInstance: $uibModalInstance}, hotModalModule);
+            }, 1);
+          });
+        }
       }
     }
 
@@ -125,7 +139,20 @@ export /* @ngInject */ function HMRModalDecoratorConfig($provide, $hmrProvider) 
 
       options = {...options, ...hmrModalTemplate, ...hmrModalController, ...hmrModalWindowClass};
 
-      return $delegate.open(options);
+      let modalInstance = $delegate.open(options);
+      let modalInstanceIdentity = `${modalControllerIdentity}-instance`;
+      let modalResolveIdentity = `${modalControllerIdentity}-resolve`;
+
+      $hmrProvider.modalStorage.set(modalInstanceIdentity, modalInstance);
+      $hmrProvider.modalStorage.set(modalResolveIdentity, options.resolve || {});
+
+      modalInstance.result.then(() => {
+        $hmrProvider.modalStorage.delete(modalInstanceIdentity);
+      }, () => {
+        $hmrProvider.modalStorage.delete(modalInstanceIdentity);
+      });
+
+      return modalInstance;
     }
   }]);
 }

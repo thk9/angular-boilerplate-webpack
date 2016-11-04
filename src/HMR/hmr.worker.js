@@ -36,22 +36,34 @@ export function updateModalTemplate($compile, template) {
 /**
  * @description - update modal instance controller
  *
- * @param {function} $injector - Angular DI private
+ * @param {function} $controller - Angular DI private
+ * @param {function} locals - $modal local DI inject
  * @param {string} controller - fresh modal controller
- *
- * @todo - implement
  */
-export function updateModalController($injector, controller) {
+export function updateModalController($controller, locals, controller) {
   let hmrModalIdentity = analyzeModalIdentity(controller);
   let rootModalSelector = huntRootModalSelector(hmrModalIdentity);
 
   let rootModalNode = document.querySelector(rootModalSelector);
 
   if (rootModalNode) {
-    console.group('HMR modal controller');
-    console.log('HMR modal controller not supported in this version');
-    console.log(controller);
-    console.groupEnd('HMR modal controller');
+    let scope = angular.element(rootModalNode).scope();
+    let prevVM = scope.vm;
+    let nextVM = $controller(controller, {...locals, $scope: scope});
+    let toString = Object.prototype.toString;
+
+    // 假设所有关联属性在constructor内部声明,变量类型不变
+    chain(nextVM).keys().value().forEach(key => {
+      if (!has(prevVM, key) || toString.call(prevVM[key]) !== toString.call(nextVM[key])) {
+        prevVM[key] = nextVM[key];
+      }
+    });
+
+    chain(Object.getOwnPropertyNames(nextVM.__proto__)).filter(key => key !== 'constructor').value().forEach(key => {
+      prevVM.__proto__[key] = nextVM.__proto__[key];
+    });
+
+    scope.$apply();
   }
 }
 
