@@ -10,6 +10,9 @@ import { Observable } from '@bornkiller/observable';
 import { analyzeModalIdentity, resolveModalClass } from './hmr.warrior';
 import { updateModalTemplate, updateModalController, updateViewTemplate, updateViewController } from './hmr.worker';
 
+/**
+ * @description - provide core $hmr service
+ */
 /* eslint-disable angular/document-service, angular/angularelement */
 export /* @ngInject */ function HMRProvider() {
   const Storage = new Map();
@@ -81,6 +84,12 @@ export /* @ngInject */ function HMRProvider() {
   }];
 }
 
+/**
+ * @description - decorate route definition, prepare for HMR
+ *
+ * @param $stateProvider
+ * @param $hmrProvider
+ */
 export /* @ngInject */ function HMRStateProviderConfig($stateProvider, $hmrProvider) {
   $stateProvider.decorator('views', function (state, $delegate) {
     let target = {};
@@ -121,6 +130,12 @@ export /* @ngInject */ function HMRStateProviderConfig($stateProvider, $hmrProvi
   });
 }
 
+/**
+ * @description - decorate modal service, prepare for HMR
+ *
+ * @param $provide
+ * @param $hmrProvider
+ */
 export /* @ngInject */ function HMRModalDecoratorConfig($provide, $hmrProvider) {
   $provide.decorator('$uibModal', ['$delegate', function ($delegate) {
     return {
