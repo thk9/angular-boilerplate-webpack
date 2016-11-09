@@ -9,6 +9,21 @@ import { isString, isFunction } from 'lodash';
 const captureModalIdentity = /^<!--\s@hmr_modal_identity\s(.+)\s-->/;
 
 /**
+ * @description - modify primitive value, trigger pipe re-calculation
+ *
+ * @param {string} primitive
+ *
+ * @todo - just trigger string update, how to resolve object or array
+ *
+ * @return {string}
+ */
+export function iterateViewValue(primitive) {
+  let uuid = Math.random().toString(36).substr(2, 9);
+
+  return `${primitive}_hmr_pipe_identity_${uuid}`;
+}
+
+/**
  * @description - analyze modal template / controller identity
  *
  * @param {string} modal
