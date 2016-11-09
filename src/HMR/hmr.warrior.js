@@ -4,7 +4,7 @@
  */
 'use strict';
 
-import { isString, isFunction } from 'lodash';
+import { isString, isFunction, isBoolean, isNumber } from 'lodash';
 
 const captureModalIdentity = /^<!--\s@hmr_modal_identity\s(.+)\s-->/;
 
@@ -18,9 +18,24 @@ const captureModalIdentity = /^<!--\s@hmr_modal_identity\s(.+)\s-->/;
  * @return {string}
  */
 export function iterateViewValue(primitive) {
+  let result;
   let uuid = Math.random().toString(36).substr(2, 9);
 
-  return `${primitive}_hmr_pipe_identity_${uuid}`;
+  switch (true) {
+    case isString(primitive):
+      result = `${primitive}_hmr_pipe_identity_${uuid}`;
+      break;
+    case isNumber(primitive):
+      result = primitive + 1;
+      break;
+    case isBoolean(primitive):
+      result = !primitive;
+      break;
+    default:
+      result = primitive;
+  }
+
+  return result;
 }
 
 /**
