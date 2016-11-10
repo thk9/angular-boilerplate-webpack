@@ -15,6 +15,21 @@ import {
 /* eslint-disable angular/document-service, angular/angularelement */
 
 /**
+ * @description - update view service
+ *
+ * @param {object} $injector - Angular DI private
+ * @param {string} name - register service name
+ * @param {object} instance -hot service instance
+ */
+export function updateViewInstance($injector, name, instance) {
+  let targetService = $injector.get(name);
+  var $rootScope = $injector.get('$rootScope');
+
+  angular.extend(targetService, instance);
+  $rootScope.$apply();
+}
+
+/**
  * @description - update view filter
  *
  * @param {function} $parse - Angular DI private

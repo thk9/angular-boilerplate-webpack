@@ -13,7 +13,8 @@ import {
   updateModalController,
   updateViewTemplate,
   updateViewController,
-  updateViewFilter
+  updateViewFilter,
+  updateViewInstance
 } from './hmr.worker';
 
 /**
@@ -39,7 +40,8 @@ export /* @ngInject */ function HMRProvider() {
     return {
       notify,
       update,
-      through
+      through,
+      override
     };
 
     /**
@@ -51,6 +53,16 @@ export /* @ngInject */ function HMRProvider() {
     function through(name, implement) {
       PipeStorage.set(`${name}Filter`, implement);
       updateViewFilter($parse, name);
+    }
+
+    /**
+     * @description - HMR factory / service implement
+     *
+     * @param {string} name
+     * @param {object} instance
+     */
+    function override(name, instance) {
+      updateViewInstance($injector, name, instance);
     }
 
     /**
