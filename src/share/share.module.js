@@ -26,3 +26,12 @@ angular.module(SHARE_MODULE, [])
 
 // just export module name for root module
 export { SHARE_MODULE };
+
+if (module.hot) {
+  module.hot.accept(['./service/prompt.factory'], function () {
+    let { promptFactory } = require('./service/prompt.factory');
+
+    $hmr.hmrOnTransfer('Factory', 'bkPrompt', promptFactory);
+    $hmr.hmrOnStore('Factory', 'bkPrompt', promptFactory);
+  });
+}

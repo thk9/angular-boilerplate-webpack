@@ -14,3 +14,4 @@ import 'jquery';
 import 'lodash';
 import 'redux';
 import 'ng-redux';
+import 'ng-hmr';

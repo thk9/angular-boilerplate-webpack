@@ -17,20 +17,21 @@ import { toastrMiddleware } from './redux/toast.middleware';
 import { LAYOUT_MODULE } from './layout/layout.module';
 import { SHARE_MODULE } from './share/share.module';
 import { TODO_MODULE, LOVE_MODULE } from './page/page.barrel';
-import { HMR_MODULE } from './HMR/hmr.module';
+// import { HMR_MODULE } from './HMR/hmr.module';
 
 const dependencies = [
   'ui.router',
   'ui.bootstrap',
   
   'ngRedux',
+  'ng-hmr',
   'ui-notification',
   
   LAYOUT_MODULE,
   SHARE_MODULE,
   TODO_MODULE,
   LOVE_MODULE,
-  HMR_MODULE
+  // HMR_MODULE
 ];
 
 /**
