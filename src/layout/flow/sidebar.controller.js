@@ -22,3 +22,5 @@ export class SidebarController {
     });
   }
 }
+
+SidebarController.ng_hmr_identity ='layout_flow_sidebar_controller_js';

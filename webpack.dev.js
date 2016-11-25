@@ -8,7 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
-    application: ['webpack-dev-server/client?http://localhost:8000', 'webpack/hot/dev-server', './src/app.js'],
+    application: ['webpack-dev-server/client?http://localhost:8100', 'webpack/hot/dev-server', './src/app.js'],
     vendor: ['./src/vendor.js'],
     vendor_css: ['./src/vendor_css.js']
   },
@@ -130,7 +130,7 @@ module.exports = {
     quiet: false,
     historyApiFallback: true,
     hot: true,
-    port: 8000,
+    port: 8100,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000

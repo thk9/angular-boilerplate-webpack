@@ -8,6 +8,7 @@ import { promptFactory } from './service/prompt.factory';
 import { postfixFilter } from './filter/postfix.filter';
 import { BkShowcaseController } from './controller/showcase.controller';
 import { bkValidateCaptchaDirective } from './directive/validate.directive';
+import { fightDirective } from './directive/fight.directive';
 
 // share module name
 const SHARE_MODULE = 'app.share';
@@ -22,16 +23,29 @@ angular.module(SHARE_MODULE, [])
   // anonymous better than declaration in product module
   // anonymous better than declaration in share module
   .controller('BkShowcaseController', BkShowcaseController)
-  .directive('bkValidateCaptcha', bkValidateCaptchaDirective);
+  .directive('bkValidateCaptcha', bkValidateCaptchaDirective)
+  .directive('bkFight', fightDirective);
 
 // just export module name for root module
 export { SHARE_MODULE };
 
 if (module.hot) {
-  module.hot.accept(['./service/prompt.factory'], function () {
-    let { promptFactory } = require('./service/prompt.factory');
+  module.hot.accept(['./directive/fight.directive'], function () {
+    let { fightDirective } = require('./directive/fight.directive');
 
-    $hmr.hmrOnTransfer('Factory', 'bkPrompt', promptFactory);
-    $hmr.hmrOnStore('Factory', 'bkPrompt', promptFactory);
+    $hmr.hmrOnChange('Directive', 'bkFight', fightDirective);
+    $hmr.hmrDoActive('Directive', 'bkFight');
+  });
+  // module.hot.accept(['./service/prompt.factory'], function () {
+  //   let { promptFactory } = require('./service/prompt.factory');
+  //
+  //   $hmr.hmrOnChange('Factory', 'bkPrompt', promptFactory);
+  // });
+  //
+  module.hot.accept(['./filter/postfix.filter'], function () {
+    let { postfixFilter } = require('./filter/postfix.filter');
+
+    $hmr.hmrOnChange('Filter', 'bkPostfix', postfixFilter);
+    $hmr.hmrDoActive('Filter', 'bkPostfix', postfixFilter);
   });
 }

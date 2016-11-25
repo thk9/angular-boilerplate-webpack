@@ -19,3 +19,5 @@ export class AuthorizeController {
     });
   }
 }
+
+AuthorizeController.ng_hmr_identity ='layout_flow_authorize_controller_js';
