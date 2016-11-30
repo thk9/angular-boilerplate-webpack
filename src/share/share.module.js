@@ -28,24 +28,3 @@ angular.module(SHARE_MODULE, [])
 
 // just export module name for root module
 export { SHARE_MODULE };
-
-if (module.hot) {
-  module.hot.accept(['./directive/fight.directive'], function () {
-    let { fightDirective } = require('./directive/fight.directive');
-
-    $hmr.hmrOnChange('Directive', 'bkFight', fightDirective);
-    $hmr.hmrDoActive('Directive', 'bkFight');
-  });
-  // module.hot.accept(['./service/prompt.factory'], function () {
-  //   let { promptFactory } = require('./service/prompt.factory');
-  //
-  //   $hmr.hmrOnChange('Factory', 'bkPrompt', promptFactory);
-  // });
-  //
-  module.hot.accept(['./filter/postfix.filter'], function () {
-    let { postfixFilter } = require('./filter/postfix.filter');
-
-    $hmr.hmrOnChange('Filter', 'bkPostfix', postfixFilter);
-    $hmr.hmrDoActive('Filter', 'bkPostfix', postfixFilter);
-  });
-}

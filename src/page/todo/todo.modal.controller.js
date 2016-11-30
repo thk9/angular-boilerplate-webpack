@@ -8,7 +8,6 @@ export class TodoModalController {
   }
 
   accept() {
-    console.log('hello world closest HMR');
     this.$uibModalInstance.close('accept');
   }
 
@@ -16,5 +15,3 @@ export class TodoModalController {
     this.$uibModalInstance.dismiss('cancel');
   }
 }
-
-TodoModalController.ng_hmr_identity = 'page-todo-todo-modal-js';
