@@ -61,8 +61,8 @@ module.exports = {
         exclude: /(?:node_modules|ng-hmr)/,
         loaders: [
           'ng-annotate-loader?add=true',
-          'babel-loader?presets[]=es2015&presets[]=stage-3&plugins[]=transform-function-bind&cacheDirectory=true'
-          // ,'ng-hot-loader?prefix=bk'
+          'babel-loader?presets[]=es2015&presets[]=stage-3&plugins[]=transform-function-bind&cacheDirectory=true',
+          'ng-hot-loader'
         ]
       },
       // UI configuration
