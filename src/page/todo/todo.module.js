@@ -5,10 +5,12 @@
 
 'use strict';
 
+// feature module dependency
+import todoPageTemplate from './todo.html';
 import { TodoController } from './todo.controller';
 
 // feature module name
-const TODO_MODULE = 'app.collection';
+const TODO_MODULE = 'app.todo';
 
 // feature module router
 const TodoRoute = [
@@ -17,7 +19,7 @@ const TodoRoute = [
     url: '/todo',
     views: {
       'page': {
-        template: require('./todo.html'),
+        template: todoPageTemplate,
         controller: TodoController,
         controllerAs: 'vm'
       }

@@ -5,8 +5,15 @@
 
 'use strict';
 
+// layout module dependency
+import layoutAuthorizeTemplate from './authority/authorize.html';
 import { AuthorizeController } from './authority/authorize.controller';
+
+import layoutNavbarTemplate from './flow/navbar.html';
+import layoutSidebarTemplate from './flow/sidebar.html';
+import layoutCoreTemplate from './flow/core.html';
 import { SidebarController } from './flow/sidebar.controller';
+
 
 // layout module name
 const LAYOUT_MODULE = 'app.layout';
@@ -18,7 +25,7 @@ const LayoutRoute = [
     url: '/authorize',
     views: {
       'core': {
-        template: require('./authority/authorize.html'),
+        template: layoutAuthorizeTemplate,
         controller: AuthorizeController,
         controllerAs: 'vm'
       }
@@ -29,15 +36,15 @@ const LayoutRoute = [
     url: '/application',
     views: {
       'navbar': {
-        template: require('./flow/navbar.html')
+        template: layoutNavbarTemplate
       },
       'sidebar': {
-        template: require('./flow/sidebar.html'),
+        template: layoutSidebarTemplate,
         controller: SidebarController,
         controllerAs: 'vm'
       },
       'core': {
-        template: require('./flow/core.html')
+        template: layoutCoreTemplate
       }
     }
   }

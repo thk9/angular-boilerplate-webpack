@@ -5,6 +5,9 @@
 
 'use strict';
 
+// love module dependency
+import lovePageTemplate from './love.html';
+
 // love module name
 const LOVE_MODULE = 'app.love';
 
@@ -15,7 +18,7 @@ const LoveRoute = [
     url: '/love',
     views: {
       'page': {
-        template: require('./love.html'),
+        template: lovePageTemplate,
         controllerAs: 'vm'
       }
     }

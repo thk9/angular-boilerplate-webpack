@@ -4,9 +4,9 @@
  */
 'use strict';
 
+// share module dependency
 import { promptFactory } from './service/prompt.factory';
 import { postfixFilter } from './filter/postfix.filter';
-import { ShowcaseController } from './controller/showcase.controller';
 import { validateCaptchaDirective } from './directive/validate.directive';
 import { fightDirective } from './directive/fight.directive';
 
@@ -22,7 +22,8 @@ angular.module(SHARE_MODULE, [])
   // About controller
   // anonymous better than declaration in product module
   // none-anonymous better than declaration in share module
-  .controller('ShowcaseController', ShowcaseController)
+  // forbidden controller register now
+  // .controller('ShowcaseController', ShowcaseController)
   .directive('bkValidateCaptcha', validateCaptchaDirective)
   .directive('bkFight', fightDirective);
 
