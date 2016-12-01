@@ -8,7 +8,7 @@
  */
 
 /* @ngInject */
-export class BkShowcaseController {
+export class ShowcaseController {
   constructor(bkPrompt) {
     this.bkPrompt = bkPrompt;
   }

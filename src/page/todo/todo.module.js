@@ -5,10 +5,25 @@
 
 'use strict';
 
-import { TodoRoute } from './todo.route';
+import { TodoController } from './todo.controller';
 
-// share module name
+// feature module name
 const TODO_MODULE = 'app.collection';
+
+// feature module router
+const TodoRoute = [
+  {
+    name: 'application.todo',
+    url: '/todo',
+    views: {
+      'page': {
+        template: require('./todo.html'),
+        controller: TodoController,
+        controllerAs: 'vm'
+      }
+    }
+  }
+];
 
 angular.module(TODO_MODULE, [])
   // eslint-disable-next-line angular/di

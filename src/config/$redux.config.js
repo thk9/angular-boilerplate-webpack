@@ -5,7 +5,7 @@
 
 'use strict';
 
-import { TodoRootReducer } from '../page/page.barrel';
+import { TodoRootReducer } from '../page/page.reducer';
 /**
  * @description
  * - just redux store config

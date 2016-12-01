@@ -3,6 +3,7 @@
  * 1. application entry
  * 2. never import none UMD package, like angular, angular-*
  * 3. import necessary UMD package, like moment, underscore
+ * 4. use pure class in router controller declare, none-anonymous
  *
  * @since 2016/09/13
  */
@@ -14,10 +15,10 @@ import { $reduxStoreConfig } from './config/$redux.config';
 import { APIMiddleware } from './redux/api.middleware';
 import { toastrMiddleware } from './redux/toast.middleware';
 
-import { LAYOUT_MODULE } from './layout/layout.module';
 import { SHARE_MODULE } from './share/share.module';
-import { TODO_MODULE, LOVE_MODULE } from './page/page.barrel';
-// import { HMR_MODULE } from './HMR/hmr.module';
+import { LAYOUT_MODULE } from './layout/layout.module';
+import { TODO_MODULE } from './page/todo/todo.module';
+import { LOVE_MODULE } from './page/love/love.module';
 
 const dependencies = [
   'ui.router',
@@ -30,8 +31,7 @@ const dependencies = [
   LAYOUT_MODULE,
   SHARE_MODULE,
   TODO_MODULE,
-  LOVE_MODULE,
-  // HMR_MODULE
+  LOVE_MODULE
 ];
 
 /**
@@ -45,8 +45,4 @@ angular.module('App', dependencies)
   .config($reduxStoreConfig)
   .config($stateProviderConfig)
   .factory('APIMiddleware', APIMiddleware)
-  .factory('toastrMiddleware', toastrMiddleware)
-  .run(function ($state, $rootScope) {
-    window.$state = $state;
-    window.$rootScope = $rootScope;
-  });
+  .factory('toastrMiddleware', toastrMiddleware);

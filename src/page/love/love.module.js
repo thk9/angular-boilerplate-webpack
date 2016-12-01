@@ -5,10 +5,22 @@
 
 'use strict';
 
-import { LoveRoute } from './love.route';
-
-// share module name
+// love module name
 const LOVE_MODULE = 'app.love';
+
+// love module router
+const LoveRoute = [
+  {
+    name: 'application.love',
+    url: '/love',
+    views: {
+      'page': {
+        template: require('./love.html'),
+        controllerAs: 'vm'
+      }
+    }
+  }
+];
 
 angular.module(LOVE_MODULE, [])
 // eslint-disable-next-line angular/di
