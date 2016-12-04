@@ -8,7 +8,7 @@
 import { promptFactory } from './service/prompt.factory';
 import { postfixFilter } from './filter/postfix.filter';
 import { validateCaptchaDirective } from './directive/validate.directive';
-import { fightDirective } from './directive/fight.directive';
+import { fightDirective } from './directive/fight/fight.directive';
 
 // share module name
 const SHARE_MODULE = 'app.share';

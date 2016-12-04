@@ -8,6 +8,7 @@ export class TodoModalController {
   }
 
   accept() {
+    console.log('Modal HMR accept 123!');
     this.$uibModalInstance.close('accept');
   }
 

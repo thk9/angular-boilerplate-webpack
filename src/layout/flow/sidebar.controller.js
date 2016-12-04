@@ -5,8 +5,12 @@ export class SidebarController {
     this.Notification = Notification;
     this.bkPrompt = bkPrompt;
     
-    this.description = 'hello world';
+    this.description = 'Let\'s fight together 1234!';
     this.authority = {};
+  }
+
+  shouldFieldUpdate(field) {
+    return ['description', 'authority'].includes(field);
   }
   
   handleAuthorityClick(authority) {

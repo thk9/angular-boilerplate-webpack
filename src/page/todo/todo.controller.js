@@ -5,6 +5,8 @@
 'use strict';
 
 import * as TodoActions from './action.creator';
+
+import todoModalTemplate from './todo.modal.html';
 import { TodoModalController } from './todo.modal.controller';
 
 /* @ngInject */
@@ -32,7 +34,7 @@ export class TodoController {
 
   displayPoemModal() {
     this.$uibModal.open({
-      template: require('./todo.modal.html'),
+      template: todoModalTemplate,
       controller: TodoModalController,
       controllerAs: 'vm'
     });

@@ -59,6 +59,8 @@
     "karma-webdriver-launcher": "^1.0.3",
     "karma-webpack": "^1.8.0",
     "ng-annotate-loader": "^0.1.1",
+    "ng-hmr": "^0.6.0",
+    "ng-hot-loader": "^0.5.1",
     "node-sass": "^3.10.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^4.0.2",
