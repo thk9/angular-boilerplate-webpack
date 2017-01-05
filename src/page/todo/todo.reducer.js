@@ -5,7 +5,7 @@ import {
   REMOTE_TODO_SUCCESS,
   REMOTE_TODO_ERROR,
   REMOTE_TODO_PRISTINE
-} from './action.type';
+} from './redux/action.type';
 
 export const INIT_STATE = {
   status: 'idle',
@@ -13,7 +13,7 @@ export const INIT_STATE = {
   list: []
 };
 
-export function todoViewReducer(state = INIT_STATE, action) {
+export function todoRootReducer(state = INIT_STATE, action) {
   switch (action.type) {
     case REMOTE_TODO:
       return {

@@ -6,8 +6,8 @@
 'use strict';
 
 // feature module dependency
-import todoPageTemplate from './todo.html';
-import { TodoController } from './todo.controller';
+import todoPageTemplate from './core/todo.html';
+import { TodoController } from './core/todo.controller';
 
 // feature module name
 const TODO_MODULE = 'app.todo';

@@ -4,7 +4,17 @@
 'use strict';
 
 import { REMOTE_TODO_TYPES } from './action.type';
-import { API_BASE, API_REQUEST } from '../../redux/api.config';
+import { API_BASE, API_REQUEST, API_TOAST } from '../../../redux/middleware/symbol.enum';
+
+export function notifyPermissionInfo() {
+  return {
+    [API_TOAST]: {
+      type: 'success',
+      title: 'redux toast middleware',
+      message: 'Let\'t fight with the redux rough things!!!'
+    }
+  };
+}
 
 export function requestCreateTodo(person) {
   return {

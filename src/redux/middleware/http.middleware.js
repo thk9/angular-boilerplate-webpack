@@ -1,8 +1,8 @@
 'use strict';
 
-import { API_REQUEST, API_TOAST } from './api.config';
+import { API_REQUEST, API_TOAST } from './symbol.enum';
 
-export function APIMiddleware($http) {
+export /* @ngInject */ function httpMiddleware($http) {
   return store => next => action => { // eslint-disable-line
     if (!action[API_REQUEST]) return next(action);
 

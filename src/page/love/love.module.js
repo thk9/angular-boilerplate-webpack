@@ -6,7 +6,7 @@
 'use strict';
 
 // love module dependency
-import lovePageTemplate from './love.html';
+import lovePageTemplate from './core/love.html';
 
 // love module name
 const LOVE_MODULE = 'app.love';

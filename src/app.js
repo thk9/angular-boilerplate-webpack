@@ -11,11 +11,9 @@
 'use strict';
 
 import { $stateProviderConfig } from './config/$state.config';
-import { $reduxStoreConfig } from './config/$redux.config';
-import { APIMiddleware } from './redux/api.middleware';
-import { toastrMiddleware } from './redux/toast.middleware';
 
 import { SHARE_MODULE } from './share/share.module';
+import { REDUX_MODULE } from './redux/redux.module';
 import { LAYOUT_MODULE } from './layout/layout.module';
 import { TODO_MODULE } from './page/todo/todo.module';
 import { LOVE_MODULE } from './page/love/love.module';
@@ -30,6 +28,7 @@ const dependencies = [
   
   LAYOUT_MODULE,
   SHARE_MODULE,
+  REDUX_MODULE,
   TODO_MODULE,
   LOVE_MODULE
 ];
@@ -42,7 +41,4 @@ const dependencies = [
  *
  */
 angular.module('App', dependencies)
-  .config($reduxStoreConfig)
-  .config($stateProviderConfig)
-  .factory('APIMiddleware', APIMiddleware)
-  .factory('toastrMiddleware', toastrMiddleware);
+  .config($stateProviderConfig);
