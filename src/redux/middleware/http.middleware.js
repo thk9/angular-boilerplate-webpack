@@ -6,10 +6,10 @@ export /* @ngInject */ function httpMiddleware($http) {
   return store => next => action => { // eslint-disable-line
     if (!action[API_REQUEST]) return next(action);
 
-    const {config, types} = action[API_REQUEST];
+    const { config, types } = action[API_REQUEST];
     const [request, requestSuccess, requestError] = types;
 
-    next({type: request});
+    next({ type: request });
 
     $http(config)
       .then(resp => {
@@ -22,7 +22,7 @@ export /* @ngInject */ function httpMiddleware($http) {
         next({
           type: requestError,
           [API_TOAST]: {
-            method: 'error',
+            type: 'error',
             message: 'Network Failed.....'
           }
         });

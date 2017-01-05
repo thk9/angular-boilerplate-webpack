@@ -5,11 +5,10 @@ import {
   REMOTE_TODO_SUCCESS,
   REMOTE_TODO_ERROR,
   REMOTE_TODO_PRISTINE
-} from './redux/action.type';
+} from './action.type';
 
 export const INIT_STATE = {
   status: 'idle',
-  error: '',
   list: []
 };
 

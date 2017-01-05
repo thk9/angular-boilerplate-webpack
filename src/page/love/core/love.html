@@ -1,15 +1,27 @@
-<div class="alert alert-success" role="alert">
-  Heads up! This alert needs your attention, but it's my favourite 123.
-</div>
-<div class="alert alert-info" role="alert">
-  Heads up! This alert needs your attention, but it's not super important.
-</div>
-<div class="alert alert-warning" role="alert">
-  Heads up! This alert needs your attention, but it's not super important.
-</div>
-<div class="alert alert-danger" role="alert">
-  Heads up! This alert needs your attention, but it's not super important.
-</div>
+<article class="love__model-list">
+  <h4 class="h4">Redux 数据管理</h4>
+  <div class="alert" role="alert"
+       ng-repeat="item in vm.list"
+       ng-class="item.className"
+       ng-bind="item.description"
+  ></div>
+</article>
+
+<article class="love__manual-list">
+  <h4 class="h4">none-redux</h4>
+  <div class="alert alert-success" role="alert">
+    Heads up! This alert needs your attention, but it's my favourite.
+  </div>
+  <div class="alert alert-info" role="alert">
+    Heads up! This alert needs your attention, but it's not super important.
+  </div>
+  <div class="alert alert-warning" role="alert">
+    Heads up! This alert needs your attention, but it's not super important.
+  </div>
+  <div class="alert alert-danger" role="alert">
+    Heads up! This alert needs your attention, but it's not super important.
+  </div>
+</article>
 
 <!--<article bk-fight></article>-->
 <!--<footer bk-fight></footer>-->

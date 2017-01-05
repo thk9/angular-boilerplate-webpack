@@ -7,6 +7,7 @@
 
 // love module dependency
 import lovePageTemplate from './core/love.html';
+import { LoveController } from './core/love.controller';
 
 // love module name
 const LOVE_MODULE = 'app.love';
@@ -19,6 +20,7 @@ const LoveRoute = [
     views: {
       'page': {
         template: lovePageTemplate,
+        controller: LoveController,
         controllerAs: 'vm'
       }
     }

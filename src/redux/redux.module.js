@@ -7,7 +7,8 @@
 // redux middleware factory
 
 import { combineReducers } from 'redux';
-import { todoRootReducer } from '../page/todo/todo.reducer';
+import { todoRootReducer } from '../page/todo/redux/todo.reducer';
+import { loveRootReducer } from '../page/love/redux/love.reducer';
 
 import { httpMiddleware } from './middleware/http.middleware';
 import { toastrMiddleware } from './middleware/toast.middleware';
@@ -15,7 +16,8 @@ import { toastrMiddleware } from './middleware/toast.middleware';
 const REDUX_MODULE = '@bk/redux-feature';
 // root state reducer
 const RootReducer = combineReducers({
-  todo: todoRootReducer
+  todo: todoRootReducer,
+  love: loveRootReducer
 });
 // angular factory
 const middleware = ['httpMiddleware', 'toastrMiddleware'];

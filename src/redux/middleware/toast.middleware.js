@@ -7,12 +7,10 @@ export /* @ngInject */ function toastrMiddleware(Notification) {
   return store => next => action => {
     // the action exclusive, should not delegate next
     if (action[API_TOAST]) {
-      let options = action[API_TOAST];
-
-      return Notification[options.type](options);
-    } else {
-      // delegate next dispatcher
-      return next(action);
+      Notification[action[API_TOAST].type](action[API_TOAST]);
     }
+
+    // delegate next dispatcher
+    return next(action);
   };
 }

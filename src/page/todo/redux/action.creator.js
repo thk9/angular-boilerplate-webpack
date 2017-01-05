@@ -8,6 +8,7 @@ import { API_BASE, API_REQUEST, API_TOAST } from '../../../redux/middleware/symb
 
 export function notifyPermissionInfo() {
   return {
+    type: API_TOAST,
     [API_TOAST]: {
       type: 'success',
       title: 'redux toast middleware',
