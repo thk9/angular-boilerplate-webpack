@@ -4,7 +4,7 @@
  */
 'use strict';
 
-import * as TodoActions from '../redux/action.creator';
+import * as TodoActions from '../../../redux/todo/action.creator';
 
 import todoModalTemplate from '../modal/todo.modal.html';
 import { TodoModalController } from '../modal/todo.modal.controller';

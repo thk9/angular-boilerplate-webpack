@@ -4,7 +4,7 @@
 'use strict';
 
 import { REMOTE_TODO_TYPES } from './action.type';
-import { API_BASE, API_REQUEST, API_TOAST } from '../../../redux/middleware/symbol.enum';
+import { API_BASE, API_REQUEST, API_TOAST } from '../middleware/symbol.enum'
 
 export function notifyPermissionInfo() {
   return {

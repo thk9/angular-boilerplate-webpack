@@ -7,8 +7,8 @@
 // redux middleware factory
 
 import { combineReducers } from 'redux';
-import { todoRootReducer } from '../page/todo/redux/todo.reducer';
-import { loveRootReducer } from '../page/love/redux/love.reducer';
+import { todoRootReducer } from './todo/todo.reducer';
+import { loveRootReducer } from './love/love.reducer';
 
 import { httpMiddleware } from './middleware/http.middleware';
 import { toastrMiddleware } from './middleware/toast.middleware';
