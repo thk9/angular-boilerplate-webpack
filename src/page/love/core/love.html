@@ -4,6 +4,7 @@
        ng-repeat="item in vm.list"
        ng-class="item.className"
        ng-bind="item.description"
+       ng-click="vm.loveActionDispatcher.removeSpecificLove(item)"
   ></div>
 </article>
 

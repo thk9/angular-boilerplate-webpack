@@ -7,19 +7,14 @@
 
 export class LoveController {
   /* @ngInject */
-  constructor($scope, $q, $ngRedux) {
-    this.$q = $q;
+  constructor($scope, $ngRedux, loveActionDispatcher) {
+    this.loveActionDispatcher = loveActionDispatcher;
 
     let disconnect = $ngRedux.connect((state) => ({
       list: state.love
     }))(this);
 
     $scope.$on('$destroy', disconnect);
-
-    if (process.env.NODE_ENV !== 'Production') {
-      this.whitelist = ['list'];
-      this.shouldFieldUpdate = (field) => this.whitelist.includes(field);
-    }
   }
 
   syncLoveConnection() {

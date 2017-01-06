@@ -5,7 +5,7 @@ import {
   REMOTE_TODO_SUCCESS,
   REMOTE_TODO_ERROR,
   REMOTE_TODO_PRISTINE
-} from './action.type';
+} from './todo.action';
 
 export const INIT_STATE = {
   status: 'idle',

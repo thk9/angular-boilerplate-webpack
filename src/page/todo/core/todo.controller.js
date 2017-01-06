@@ -4,28 +4,22 @@
  */
 'use strict';
 
-import * as TodoActions from '../../../redux/todo/action.creator';
-
 import todoModalTemplate from '../modal/todo.modal.html';
 import { TodoModalController } from '../modal/todo.modal.controller';
 
 /* @ngInject */
 export class TodoController {
-  constructor($q, $scope, $ngRedux, $uibModal) {
+  constructor($q, $scope, $ngRedux, $uibModal, todoActionDispatcher) {
     this.$q = $q;
     this.$uibModal = $uibModal;
-    this.TodoActions = TodoActions;
+    this.todoActionDispatcher = todoActionDispatcher;
 
     let disconnect = $ngRedux.connect((state) => ({
       status: state.todo.status,
       list: state.todo.list
-    }), TodoActions)(this);
+    }))(this);
 
     $scope.$on('$destroy', disconnect);
-  }
-
-  shouldFieldUpdate(field) {
-    return this.TodoActions.hasOwnProperty(field);
   }
 
   /**
@@ -34,7 +28,7 @@ export class TodoController {
    */
   handleTodoSubmit(person) {
     // validate person here
-    this.requestCreateTodo(person);
+    this.todoActionDispatcher.requestCreateTodo(person);
   }
 
   displayPoemModal() {
